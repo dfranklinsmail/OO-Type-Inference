@@ -5,5 +5,5 @@ Class {
 		'methods',
 		'variables'
 	],
-	#category : #'OOTypeInference-Language'
+	#category : #'OOTypeInference-LanguageValues'
 }
