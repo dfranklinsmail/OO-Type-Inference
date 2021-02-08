@@ -5,7 +5,7 @@ Class {
 		'typ1',
 		'typ2'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Types'
 }
 
 { #category : #'instance creation' }

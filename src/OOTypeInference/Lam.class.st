@@ -5,7 +5,7 @@ Class {
 		'varname',
 		'exp'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Language'
 }
 
 { #category : #'instance creation' }

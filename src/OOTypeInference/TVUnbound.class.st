@@ -7,7 +7,7 @@ Class {
 	#classVars : [
 		'NextVar'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Types'
 }
 
 { #category : #'class initialization' }

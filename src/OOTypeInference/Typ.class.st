@@ -1,7 +1,7 @@
 Class {
 	#name : #Typ,
 	#superclass : #Unify,
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Types'
 }
 
 { #category : #comparing }

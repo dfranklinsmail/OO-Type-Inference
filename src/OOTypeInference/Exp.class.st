@@ -4,7 +4,7 @@ Implementing Remy's Type inference from http://okmij.org/ftp/ML/generalization.h
 Class {
 	#name : #Exp,
 	#superclass : #Object,
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Language'
 }
 
 { #category : #'as yet unclassified' }

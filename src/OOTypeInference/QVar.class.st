@@ -4,5 +4,5 @@ Class {
 	#instVars : [
 		'qname'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Types'
 }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'typ'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Types'
 }
 
 { #category : #accessing }

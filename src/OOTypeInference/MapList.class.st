@@ -8,7 +8,7 @@ Class {
 		'key',
 		'value'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Types'
 }
 
 { #category : #initialization }

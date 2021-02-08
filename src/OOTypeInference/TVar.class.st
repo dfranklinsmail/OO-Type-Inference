@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tv'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Types'
 }
 
 { #category : #'as yet unclassified' }

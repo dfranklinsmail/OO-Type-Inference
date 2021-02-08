@@ -5,7 +5,7 @@ Class {
 		'exp1',
 		'exp2'
 	],
-	#category : #OOTypeInference
+	#category : #'OOTypeInference-Language'
 }
 
 { #category : #'instance creation' }
