@@ -43,12 +43,6 @@ TArrow >> isTArrow [
 	
 ]
 
-{ #category : #'type unification' }
-TArrow >> occurs: aTyp [
-	^((aTyp occurs: typ1) | (aTyp occurs: typ2 )).
-	
-]
-
 { #category : #printing }
 TArrow >> printNestedOn: aStream [
 	aStream nextPut: $(.

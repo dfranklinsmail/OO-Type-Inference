@@ -26,8 +26,14 @@ TVLink >> isLink [
 ]
 
 { #category : #printing }
+TVLink >> link [
+	^typ.
+
+]
+
+{ #category : #printing }
 TVLink >> link: newTyp [
-	^ typ := newTyp.
+	typ := newTyp.
 
 ]
 

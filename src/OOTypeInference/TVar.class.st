@@ -9,7 +9,12 @@ Class {
 
 { #category : #'as yet unclassified' }
 TVar class >> newvar [
-	^ self tv: TVUnbound new
+	^ self  newvar: 0
+]
+
+{ #category : #'as yet unclassified' }
+TVar class >> newvar: aLevel [
+	^ self tv: TVUnbound new.
 ]
 
 { #category : #'instance creation' }
@@ -22,6 +27,14 @@ TVar >> addTypeMap: aToyTVar to: aMap [
 	tv isTArrow ifTrue: [ ^tv addTypeMap: aToyTVar to: aMap ].
 	aMap at: aToyTVar ifPresent: [: value | ^ self == value ] ifAbsentPut: [ self ].
 	^ true
+]
+
+{ #category : #accessing }
+TVar >> gen [
+	tv isUnbound ifTrue: [
+		tv level > tv currentLevel ifTrue:[ ^ QVar name: (tv string)].
+	].
+
 ]
 
 { #category : #comparing }
@@ -39,12 +52,15 @@ TVar >> isTVar [
 
 { #category : #'type unification' }
 TVar >> occurs: aTyp [
-	tv isUnbound ifTrue: [ ^tv occurs: aTyp ].
-	tv isLink ifTrue: [ ^aTyp occurs: aTyp ].
-	tv isTArrow ifTrue: [ ^tv occurs: aTyp ].
-	^false.
-
- 
+	aTyp isTVar ifTrue: [ (tv == aTyp tv) ifTrue: [ ^ true ]]."fail! throw exception"
+	(tv isUnbound) & (aTyp isTVar) ifTrue: [ 
+				(aTyp tv isUnbound) ifTrue: [ (tv level > aTyp tv level) ifTrue: [ 
+					tv level: aTyp tv level. "update the level".
+				]].
+			^ false. 
+	].
+	aTyp isTArrow ifTrue: [ ^ (self occurs: aTyp typ1) & (self occurs: aTyp typ2) ].
+	aTyp isLink ifTrue: [ ^ self occurs: (aTyp link)].
 ]
 
 { #category : #printing }
@@ -59,6 +75,12 @@ TVar >> printOn: aStream [
 	tv printOn: aStream.
 
 	
+]
+
+{ #category : #accessing }
+TVar >> tv [
+	^ tv.
+
 ]
 
 { #category : #accessing }

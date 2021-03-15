@@ -2,9 +2,11 @@ Class {
 	#name : #TVUnbound,
 	#superclass : #TypeVar,
 	#instVars : [
-		'string'
+		'string',
+		'level'
 	],
 	#classVars : [
+		'CurrentLevel',
 		'NextVar'
 	],
 	#category : #'OOTypeInference-Types'
@@ -13,6 +15,13 @@ Class {
 { #category : #'class initialization' }
 TVUnbound class >> initialize [
 	NextVar := 0.
+	CurrentLevel := 0.
+
+]
+
+{ #category : #'class initialization' }
+TVUnbound >> decrement [
+	CurrentLevel := CurrentLevel - 1.
 
 ]
 
@@ -21,9 +30,16 @@ TVUnbound >> gen [
 	^ QVar new.
 ]
 
+{ #category : #'class initialization' }
+TVUnbound >> incrementLevel [
+	CurrentLevel := CurrentLevel + 1.
+
+]
+
 { #category : #initialization }
 TVUnbound >> initialize [
 	| count |
+	level := CurrentLevel.
 	count := NextVar := NextVar + 1.
 	string := ''.
 	[
@@ -36,6 +52,17 @@ TVUnbound >> initialize [
 { #category : #accessing }
 TVUnbound >> isUnbound [
 	^ true.
+]
+
+{ #category : #accessing }
+TVUnbound >> level [ 
+	^ level.
+
+]
+
+{ #category : #'instance creation' }
+TVUnbound >> level: aLevel [
+	level := aLevel
 ]
 
 { #category : #accessing }

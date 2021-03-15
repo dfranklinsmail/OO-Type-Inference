@@ -183,18 +183,39 @@ OOTITest >> testEgNestingLet1 [
 ]
 
 { #category : #tests }
+OOTITest >> testGen [
+	| tvar1 gen1 qvar |
+	tvar1 := TVar new.
+	gen1 := tvar1 gen.
+	self assert: (gen1 == qvar)
+]
+
+{ #category : #tests }
 OOTITest >> testOccurs1 [
-	| tVar1 tVar2 tArrow tLink|
+	| tVar1 tVar2 tArrow tLink tVarHigher tVarLower tVarHigher2 tVarLower2 tVar3 |
 	tVar1 := TVar newvar.
 	self assert: (tVar1 occurs: tVar1).
 	
 	tVar2 := TVar newvar.
 	self deny: (tVar1 occurs: tVar2).
 	
+	tVarHigher := TVar newvar: 5.
+	tVarLower := TVar newvar: 50.
+	self deny: (tVarLower occurs: tVarHigher).
+	self assert: (tVarLower tv level == tVarHigher tv level).
+	
+	tVarHigher2 := TVar newvar: 5.
+	tVarLower2 := TVar newvar: 50.
+	self deny: (tVarHigher2 occurs: tVarLower2).
+	self assert: (tVarLower2 tv level == tVarHigher2 tv level).
+	
 	tArrow := TArrow type: tVar1 arrow: tVar2.
-	self assert: (tVar1 occurs: tArrow).
-	self assert: (tVar2 occurs: tArrow).
-	self assert: (tArrow occurs: tVar1).  "not sure about this one"
+	self deny: (tVar1 occurs: tArrow).
+	self deny: (tVar2 occurs: tArrow).
+	tVar3 := TVar newvar: 100.
+	tVar3 occurs: tArrow.
+	self assert: ((tVar3 tv level) == 0).
+	self deny: (tArrow occurs: tVar1).  "not sure about this one"
 	
 	tLink := TVLink link: tVar1.
 	self assert: (tVar1 occurs: tLink).
