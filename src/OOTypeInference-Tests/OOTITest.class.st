@@ -105,8 +105,8 @@ OOTITest >> testEg3Unsound [
 	t3 := TVar newvar.
 	t4 := TVar newvar.
 	
-	correctType ":= ToyTArrow type: (ToyTArrow type: t1 arrow: t2) arrow: (ToyTArrow type: t1 arrow: t2).
-	unsoundType" := TArrow type: (TArrow type: t1 arrow: t2) arrow: (TArrow type: t3 arrow: t4).
+	correctType := "TArrow type: (TArrow type: t1 arrow: t2) arrow: (TArrow type: t1 arrow: t2).
+	correctType :=" TArrow type: (TArrow type: t1 arrow: t2) arrow: (TArrow type: t3 arrow: t4).
 	type := toy typeOf: env.
 	self assert: type equals: correctType. 	
 
@@ -184,10 +184,46 @@ OOTITest >> testEgNestingLet1 [
 
 { #category : #tests }
 OOTITest >> testGen [
-	| tvar1 gen1 qvar |
-	tvar1 := TVar new.
+	| tvar1 gen1 qvar tvar2 gen2 tvlink1 tvar3 genLink1 tvar4 tvlink2 genLink2 tvar5 tvar6 tarrow1 gen3 |
+	
+	tvar1 := TVar newvar.
+	
+	"test that a fresh TVar on its own after gen is equal"
 	gen1 := tvar1 gen.
-	self assert: (gen1 == qvar)
+	self assert: (gen1 == tvar1).
+	self deny: (gen1 isQVar).
+	
+	tvar2 := TVar newvar: 10.
+	gen2 := tvar2 gen.
+	self assert: (gen2 isQVar).
+	self assert: (tvar2 tv string == gen2 qname).
+	
+	"test gen with link"
+	tvar3 := TVar newvar.
+	tvlink1 := TVLink link: tvar3.
+	genLink1 := tvlink1 gen.
+	self assert: (genLink1 == tvar3).
+	self deny: (genLink1 isQVar).
+	
+	tvar4 := TVar newvar: 3.
+	tvlink2 := TVLink link: tvar4.
+	genLink2 := tvlink2 gen.
+	self assert: (genLink2 isQVar).
+	self assert: (tvar4 tv string == genLink2 qname).
+	
+	"test gen with tarrow"
+	tvar5 := TVar newvar.
+	tvar6 := TVar newvar.
+	tarrow1 := TArrow type: tvar5 arrow: tvar6.
+	gen3 := tarrow1 gen.
+	self assert: (gen3 typ1 == tarrow1 typ1).
+	self assert: (gen3 typ2 == tarrow1 typ2).
+	
+	
+	
+	
+	
+	
 ]
 
 { #category : #tests }
@@ -206,7 +242,7 @@ OOTITest >> testOccurs1 [
 	
 	tVarHigher2 := TVar newvar: 5.
 	tVarLower2 := TVar newvar: 50.
-	self deny: (tVarHigher2 occurs: tVarLower2).
+	self deny: (tVarLower2 occurs: tVarHigher2).
 	self assert: (tVarLower2 tv level == tVarHigher2 tv level).
 	
 	tArrow := TArrow type: tVar1 arrow: tVar2.

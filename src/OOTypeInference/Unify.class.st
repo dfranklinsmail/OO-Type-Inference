@@ -15,6 +15,11 @@ Unify >> isLink [
 ]
 
 { #category : #'as yet unclassified' }
+Unify >> isQVar [
+	^ false.
+]
+
+{ #category : #'as yet unclassified' }
 Unify >> isTArrow [
 	^ false.
 ]

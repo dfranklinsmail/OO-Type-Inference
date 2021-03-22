@@ -13,10 +13,20 @@ Class {
 }
 
 { #category : #'class initialization' }
+TVUnbound class >> currentLevel [
+	^CurrentLevel
+]
+
+{ #category : #'class initialization' }
 TVUnbound class >> initialize [
 	NextVar := 0.
 	CurrentLevel := 0.
 
+]
+
+{ #category : #'class initialization' }
+TVUnbound class >> level: aLevel [
+	^self new level: aLevel.
 ]
 
 { #category : #'class initialization' }

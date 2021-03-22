@@ -23,7 +23,7 @@ TArrow >> addTypeMap: aToyTyp to: aMap [
 
 { #category : #printing }
 TArrow >> gen [
-	^ TArrow type: (typ1 gen) arrow: (typ2 gen).
+	TArrow type: (typ1 gen) arrow: (typ2 gen).
 	
 ]
 

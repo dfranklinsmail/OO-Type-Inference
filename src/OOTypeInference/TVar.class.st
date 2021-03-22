@@ -14,7 +14,7 @@ TVar class >> newvar [
 
 { #category : #'as yet unclassified' }
 TVar class >> newvar: aLevel [
-	^ self tv: TVUnbound new.
+	^ self tv: (TVUnbound level: aLevel).
 ]
 
 { #category : #'instance creation' }
@@ -32,9 +32,10 @@ TVar >> addTypeMap: aToyTVar to: aMap [
 { #category : #accessing }
 TVar >> gen [
 	tv isUnbound ifTrue: [
-		tv level > tv currentLevel ifTrue:[ ^ QVar name: (tv string)].
+		(tv level > TVUnbound currentLevel) ifTrue:[ ^ QVar qname: (tv string)].
 	].
-
+	tv isLink ifTrue: [ ^tv gen. ].
+	^self. "could be tv as well, doc says |ty -> ty for let rec gen : typ-> typ = function"
 ]
 
 { #category : #comparing }

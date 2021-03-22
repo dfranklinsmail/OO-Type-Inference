@@ -8,8 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-QVar class >> name: aName [
-	^self new name: aName
+QVar class >> qname: aQName [
+	^self new qname: aQName
+]
+
+{ #category : #accessing }
+QVar >> isQVar [
+	^ true.
+	
+]
+
+{ #category : #accessing }
+QVar >> qname [
+	^qname.
 ]
 
 { #category : #accessing }
