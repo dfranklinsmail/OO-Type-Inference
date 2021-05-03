@@ -24,6 +24,22 @@ OOTITest >> setUp [
 ]
 
 { #category : #tests }
+OOTITest >> testClassHierarchy [
+	| c1 expectedType |
+	"test that ('a -> 'b) -> ('a -> 'b) is not the same as ('b -> 'a) -> ('a -> 'b)"
+	c1 := Cls new.
+	expectedType := TCls new.
+	
+	self assert: expectedType equals: (c1 typeOf: nil).
+	
+	"
+	m1 := Mthd arguments: {a1.a2}.
+	expectedType := TArrow type: (TArrow type: t1 arrow: t2)  arrow: (TArrow type: t1 arrow: t2).  
+	self deny: (TArrow type: (TArrow type: t2 arrow: t1) arrow: (TArrow type: t1 arrow: t2)) equals: expectedType.
+	"
+]
+
+{ #category : #tests }
 OOTITest >> testEg1 [
 	" fun x -> let y = fun z -> z in y "
 
@@ -227,6 +243,35 @@ OOTITest >> testGen [
 ]
 
 { #category : #tests }
+OOTITest >> testObjectType [
+	| c1 o1 expectedType m1 o2 env m2 o3 o4 |
+	"test that ??????"
+	c1 := Cls new.
+	expectedType := TCls new.
+	self assert: expectedType equals: (c1 typeOf: nil).
+	
+	m1 := Mthd new.
+	o1 := Obj instantiate: c1.
+	o1 send: m1.
+	o2 := Obj instantiate: c1.
+	o2 send: m1.
+	env := nil.
+	self assert: (o1 typeOf: env) equals: (o2 typeOf: env).
+	"
+	m1 := Mthd arguments: {a1.a2}.
+	expectedType := TArrow type: (TArrow type: t1 arrow: t2)  arrow: (TArrow type: t1 arrow: t2).  
+	self deny: (TArrow type: (TArrow type: t2 arrow: t1) arrow: (TArrow type: t1 arrow: t2)) equals: expectedType.
+	"
+	m2 := Mthd new.
+	o3 := Obj instantiate: (Cls new).
+	o3 send: m2.
+	o4 := Obj instantiate: (Cls new).
+	o4 send: m2.
+	env := nil.
+	self assert: (o3 typeOf: env) equals: (o4 typeOf: env).
+]
+
+{ #category : #tests }
 OOTITest >> testOccurs1 [
 	| tVar1 tVar2 tArrow tLink tVarHigher tVarLower tVarHigher2 tVarLower2 tVar3 |
 	tVar1 := TVar newvar.
@@ -259,6 +304,18 @@ OOTITest >> testOccurs1 [
 	self assert: (tLink occurs: tLink). 
 	
 	
+]
+
+{ #category : #tests }
+OOTITest >> testSameMethod1 [
+	| m1 m2 expectedType a1 a2 t1 t2 |
+	"test that ('a -> 'b) -> ('a -> 'b) is not the same as ('b -> 'a) -> ('a -> 'b)"
+	a1 := Var new.
+	a2 := Var new.
+	m1 := Mthd arguments: {a1.a2}.
+	expectedType := TArrow type: (TArrow type: t1 arrow: t2)  arrow: (TArrow type: t1 arrow: t2).  
+	self deny: (TArrow type: (TArrow type: t2 arrow: t1) arrow: (TArrow type: t1 arrow: t2)) equals: expectedType.
+
 ]
 
 { #category : #tests }

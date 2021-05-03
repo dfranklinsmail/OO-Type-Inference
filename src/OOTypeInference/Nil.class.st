@@ -1,10 +1,8 @@
 Class {
-	#name : #Mthd,
+	#name : #Nil,
 	#superclass : #Exp,
 	#instVars : [
-		'arguments',
-		'statements',
-		'selector'
+		'varname'
 	],
 	#category : #'OOTypeInference-LanguageValues'
 }

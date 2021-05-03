@@ -25,6 +25,21 @@ Unify >> isTArrow [
 ]
 
 { #category : #'as yet unclassified' }
+Unify >> isTCls [
+	^ false.
+]
+
+{ #category : #'as yet unclassified' }
+Unify >> isTInterface [
+	^ false.
+]
+
+{ #category : #'as yet unclassified' }
+Unify >> isTObj [
+	^ false.
+]
+
+{ #category : #'as yet unclassified' }
 Unify >> isTVar [
 	^ false.
 ]

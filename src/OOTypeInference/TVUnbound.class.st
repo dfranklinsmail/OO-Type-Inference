@@ -13,8 +13,9 @@ Class {
 }
 
 { #category : #'class initialization' }
-TVUnbound class >> currentLevel [
-	^CurrentLevel
+TVUnbound class >> enterLevel [
+	CurrentLevel := CurrentLevel + 1.
+
 ]
 
 { #category : #'class initialization' }
@@ -25,25 +26,24 @@ TVUnbound class >> initialize [
 ]
 
 { #category : #'class initialization' }
-TVUnbound class >> level: aLevel [
-	^self new level: aLevel.
+TVUnbound class >> leaveLevel [
+	CurrentLevel := CurrentLevel - 1.
+
 ]
 
 { #category : #'class initialization' }
-TVUnbound >> decrement [
-	CurrentLevel := CurrentLevel - 1.
+TVUnbound class >> level [
+	^CurrentLevel
+]
 
+{ #category : #'class initialization' }
+TVUnbound class >> level: aLevel [
+	^self new level: aLevel.
 ]
 
 { #category : #accessing }
 TVUnbound >> gen [
 	^ QVar new.
-]
-
-{ #category : #'class initialization' }
-TVUnbound >> incrementLevel [
-	CurrentLevel := CurrentLevel + 1.
-
 ]
 
 { #category : #initialization }
