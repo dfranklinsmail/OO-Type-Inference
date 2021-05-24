@@ -6,13 +6,32 @@ Class {
 		'variables',
 		'selector'
 	],
+	#classInstVars : [
+		'methods'
+	],
 	#category : #'OOTypeInference-LanguageValues'
 }
 
 { #category : #accessing }
 Cls >> addMethod: method [
-	methods = nil ifTrue: [ methods := OrderedCollection new. ].
+	methods = nil ifTrue: [ methods := OrderedCollection new. ]. "probably don't need this as it in initiazlie"
 	methods add: method.
+]
+
+{ #category : #'class initialization' }
+Cls >> initialize [ 
+	super initialize.
+	methods := OrderedCollection new.
+]
+
+{ #category : #accessing }
+Cls >> methods [
+	^methods sort: [ :first :second | first selector <= second selector].
+]
+
+{ #category : #accessing }
+Cls >> methods: myMethods [.
+	methods := myMethods.
 ]
 
 { #category : #accessing }
