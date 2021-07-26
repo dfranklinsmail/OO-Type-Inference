@@ -2,10 +2,21 @@ Class {
 	#name : #TCls,
 	#superclass : #Typ,
 	#instVars : [
-		'selectors'
+		'selectors',
+		'className'
 	],
 	#category : #'OOTypeInference-Types'
 }
+
+{ #category : #'instance creation' }
+TCls class >> class: aClassName [
+	^self basicNew class: aClassName.
+]
+
+{ #category : #'as yet unclassified' }
+TCls >> class: aClassName [
+	className := aClassName
+]
 
 { #category : #'as yet unclassified' }
 TCls >> isSameType: aTType env: aMap [

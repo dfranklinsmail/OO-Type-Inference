@@ -6,3 +6,13 @@ Class {
 	],
 	#category : #'OOTypeInference-LanguageValues'
 }
+
+{ #category : #accessing }
+Int >> printOn: aStream [
+	aStream nextPutAll: ' Int '.
+]
+
+{ #category : #accessing }
+Int >> typeOf: environment [
+	^ TCls class: (self class).
+]
