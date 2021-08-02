@@ -1,6 +1,6 @@
 Class {
 	#name : #Cls,
-	#superclass : #Exp,
+	#superclass : #Object,
 	#instVars : [
 		'methods',
 		'variables',
@@ -9,7 +9,7 @@ Class {
 	#classInstVars : [
 		'methods'
 	],
-	#category : #'OOTypeInference-LanguageValues'
+	#category : #'OOTypeInference-Language'
 }
 
 { #category : #accessing }

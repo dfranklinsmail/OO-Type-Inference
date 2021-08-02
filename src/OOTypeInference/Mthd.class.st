@@ -1,12 +1,12 @@
 Class {
 	#name : #Mthd,
-	#superclass : #Exp,
+	#superclass : #Object,
 	#instVars : [
 		'arguments',
 		'statements',
 		'selector'
 	],
-	#category : #'OOTypeInference-LanguageValues'
+	#category : #'OOTypeInference-Language'
 }
 
 { #category : #'as yet unclassified' }
