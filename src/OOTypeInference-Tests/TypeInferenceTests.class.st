@@ -12,7 +12,7 @@ aMethod := Mthd new.
 aMethod selector: #number.
 x:= (Asn varname: #x expression: (Int new)).
 aMethod statements add: x.
-aMethod statements add: (Rtrn exp: x).
+aMethod statements add: (Rtrn exp: (Var varname: #x)).
 
 expectedType := TArrow type: (TVar newvar)  arrow: (TCls class: (Int class)).
 self assert: (aMethod typeOf: nil)equals: expectedType.
