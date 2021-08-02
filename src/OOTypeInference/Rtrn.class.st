@@ -1,6 +1,6 @@
 Class {
 	#name : #Rtrn,
-	#superclass : #Exp,
+	#superclass : #Stmnt,
 	#instVars : [
 		'expression'
 	],

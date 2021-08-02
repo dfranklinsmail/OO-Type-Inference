@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'varname'
 	],
-	#category : #'OOTypeInference-LanguageValues'
+	#category : #'OOTypeInference-Language'
 }
 
 { #category : #'instance creation' }
