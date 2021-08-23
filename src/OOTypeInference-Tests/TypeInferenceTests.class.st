@@ -28,7 +28,7 @@ aMethod selector: #number.
 aMethod statements add: (Int new).
 
 expectedType := TArrow type: (TVar newvar)  arrow: (TCls class: (Int class)).
-self assert: (aMethod typeOf: nil)equals: expectedType.
+self assert: (aMethod typeOf: nil) equals: expectedType.
 
 
 
