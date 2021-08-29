@@ -25,6 +25,11 @@ Cls >> initialize [
 ]
 
 { #category : #accessing }
+Cls >> isSameType: aToyTyp env: aMap [
+	self halt.
+]
+
+{ #category : #accessing }
 Cls >> methods [
 	^methods sort: [ :first :second | first selector <= second selector].
 ]

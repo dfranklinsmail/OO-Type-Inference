@@ -21,6 +21,17 @@ Mthd class >> selector: aSelector arguments: listOfArguments [
 ]
 
 { #category : #accessing }
+Mthd >> addArgument: anArgument [
+	arguments add: anArgument.
+	
+]
+
+{ #category : #accessing }
+Mthd >> addStatement: aStatement [
+	statements add: aStatement.
+]
+
+{ #category : #accessing }
 Mthd >> selector [
 	^selector
 ]
@@ -28,11 +39,6 @@ Mthd >> selector [
 { #category : #accessing }
 Mthd >> selector: aSelector [
 	selector := aSelector.
-]
-
-{ #category : #accessing }
-Mthd >> statements [
-	^statements 
 ]
 
 { #category : #accessing }
@@ -50,13 +56,15 @@ Mthd >> typeOf: environment [
 
 { #category : #accessing }
 Mthd >> typeOfArguments: environment [
-	arguments isEmpty ifTrue: [ ^ TVar newvar. ]
-	ifFalse: [ arguments do: [ :arg | ^arg typeOf: environment. ] ]
+	| result |
+	^arguments collect: [ :exp | exp typeOf: environment. ].
 ]
 
 { #category : #accessing }
 Mthd >> typeOfSteatments: environment [
+	| result |
 	statements  isEmpty ifTrue: [ ^ TVar newvar. ]
-	ifFalse: [ statements do: [ :exp | ^exp typeOf: environment. ] ]
+	ifFalse: [ statements do: [ :exp | result := exp typeOf: environment. ] ].
+	^result.
 	
 ]
