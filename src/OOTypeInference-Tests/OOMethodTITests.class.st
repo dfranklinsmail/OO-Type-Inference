@@ -18,7 +18,7 @@ OOMethodTITests >> testAssignmentTypeOf [
 { #category : #tests }
 OOMethodTITests >> testIntegerArgumentAndReturnMethodTyping [
 
-| aMethod expectedType |
+| aMethod expectedType args |
 aMethod := Mthd new.
 aMethod selector: #number.
 
@@ -27,7 +27,9 @@ aMethod addArgument: (Asn varname: #y expression: (Int new)).
 aMethod addStatement: (Asn varname: #x expression: (Int new)).
 aMethod addStatement: (Rtrn exp: (Var varname: #x)).
 
-expectedType := TArrow type: (TCls class: (Int class))  arrow: (TCls class: (Int class)).
+args := OrderedCollection new.
+args add: (TCls class: (Int class)).
+expectedType := TArrow type: args  arrow: (TCls class: (Int class)).
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 
 

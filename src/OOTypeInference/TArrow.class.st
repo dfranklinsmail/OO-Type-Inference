@@ -28,13 +28,18 @@ TArrow >> gen [
 ]
 
 { #category : #comparing }
-TArrow >> isSameType: aToyTyp env: environment [
+TArrow >> isSameType: aToyTyp env: aEnv [
 	"check if the passed in type is a ToyTArrow"
-	aToyTyp isTArrow ifFalse: [ ^ aToyTyp isSameType: self env: environment "ask the nonTArrow aToyTyp if they are the same type."].
+	aToyTyp isTArrow ifFalse: [ ^ aToyTyp isSameType: self env: aEnv "ask the nonTArrow aToyTyp if they are the same type."].
 	
-	^ (typ1 addTypeMap: aToyTyp typ1 to: environment) and: [
-			typ2 isSameType: aToyTyp typ2 env: environment
+	(((typ1 isCollection) and: (aToyTyp typ1 isCollection)) and: (typ1 isSameTypes: (aToyTyp typ1) env: aEnv))  ifTrue: [
+			^typ2 isSameType: aToyTyp typ2 env: aEnv.
+	]
+	ifFalse: [
+	^ (typ1 addTypeMap: aToyTyp typ1 to: aEnv) and: [
+			typ2 isSameType: aToyTyp typ2 env: aEnv
 		]
+	]
 ]
 
 { #category : #printing }
