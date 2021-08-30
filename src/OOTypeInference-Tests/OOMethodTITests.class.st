@@ -38,14 +38,15 @@ self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 { #category : #tests }
 OOMethodTITests >> testSmallIntegerMethodAssignAndReturnTyping [
 
-| aMethod expectedType x |
+| aMethod expectedType x args |
 aMethod := Mthd new.
 aMethod selector: #number.
 x:= (Asn varname: #x expression: (Int new)).
 aMethod addStatement: x.
 aMethod addStatement: (Rtrn exp: (Var varname: #x)).
 
-expectedType := TArrow type: (TVar newvar)  arrow: (TCls class: (Int class)).
+args := OrderedCollection new.
+expectedType := TArrow type: args arrow: (TCls class: (Int class)).
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 
 ]
@@ -53,12 +54,13 @@ self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 { #category : #tests }
 OOMethodTITests >> testSmallIntegerMethodLastStatementTyping [
 
-| aMethod expectedType |
+| aMethod expectedType args |
 aMethod := Mthd new.
 aMethod selector: #number.
 aMethod addStatement: (Int new).
 
-expectedType := TArrow type: (TVar newvar)  arrow: (TCls class: (Int class)).
+args := OrderedCollection new.
+expectedType := TArrow type: args  arrow: (TCls class: (Int class)).
 self assert: (aMethod typeOf: Dictionary new)equals: expectedType.
 
 
@@ -68,12 +70,13 @@ self assert: (aMethod typeOf: Dictionary new)equals: expectedType.
 { #category : #tests }
 OOMethodTITests >> testSmallIntegerMethodReturnTyping [
 
-| aMethod expectedType |
+| aMethod expectedType args |
 aMethod := Mthd new.
 aMethod selector: #number.
 aMethod addStatement: (Rtrn exp: (Int new)).
 
-expectedType := TArrow type: (TVar newvar)  arrow: (TCls class: (Int class)).
+args := OrderedCollection new.
+expectedType := TArrow type: args arrow: (TCls class: (Int class)).
 self assert: (aMethod typeOf: nil)equals: expectedType.
 
 
@@ -83,12 +86,13 @@ self assert: (aMethod typeOf: nil)equals: expectedType.
 { #category : #tests }
 OOMethodTITests >> testSmallIntegerVariableMethodWithImplicitReturnTyping [
 
-| aMethod expectedType |
+| aMethod expectedType args |
 aMethod := Mthd new.
 aMethod selector: #number.
 aMethod addStatement: (Asn varname: #x expression: (Int new)).
 
-expectedType := TArrow type: (TVar newvar)  arrow: (TCls class: (Int class)).
+args := OrderedCollection new.
+expectedType := TArrow type: args arrow: (TCls class: (Int class)).
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 
 
