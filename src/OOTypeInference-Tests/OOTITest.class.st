@@ -136,13 +136,21 @@ OOTITest >> testOccurs1 [
 
 { #category : #tests }
 OOTITest >> testSameMethod1 [
-	| m1 m2 expectedType a1 a2 t1 t2 |
+	| m1 expectedType a1 a2 arguments |
 	"test that ('a -> 'b) -> ('a -> 'b) is not the same as ('b -> 'a) -> ('a -> 'b)"
-	a1 := Var new.
-	a2 := Var new.
-	m1 := Mthd arguments: {a1.a2}.
-	expectedType := TArrow type: (TArrow type: t1 arrow: t2)  arrow: (TArrow type: t1 arrow: t2).  
-	self deny: (TArrow type: (TArrow type: t2 arrow: t1) arrow: (TArrow type: t1 arrow: t2)) equals: expectedType.
+	a1 := Int new.
+	a2 := Int new.
+	
+	m1 := Mthd new.
+	m1 addArgument: a1.
+	m1 addStatement: a2.
+	
+	expectedType := m1 typeOf: Dictionary new.  
+	
+	arguments := OrderedCollection new.
+	arguments add: (TCls class: (Int class)).
+	
+	self assert: (TArrow type: arguments arrow: (TCls class: (Int class))) equals: expectedType.
 
 ]
 
