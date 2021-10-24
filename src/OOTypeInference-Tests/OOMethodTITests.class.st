@@ -36,6 +36,42 @@ self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 ]
 
 { #category : #tests }
+OOMethodTITests >> testSameMethod1 [
+	| m1 expectedType a1 a2 arguments |
+	"test that ('a -> 'b) -> ('a -> 'b) is not the same as ('b -> 'a) -> ('a -> 'b)"
+	a1 := Int new.
+	a2 := Int new.
+	
+	m1 := Mthd new.
+	m1 addArgument: a1.
+	m1 addStatement: a2.
+	
+	expectedType := m1 typeOf: Dictionary new.  
+	
+	arguments := OrderedCollection new.
+	arguments add: (TCls class: (Int class)).
+	
+	self assert: (TArrow type: arguments arrow: (TCls class: (Int class))) equals: expectedType.
+
+]
+
+{ #category : #tests }
+OOMethodTITests >> testSelectorsMatch [
+
+| m1 m2 |
+m1 := Mthd new.
+m1 selector: #number.
+
+m2 := Mthd new.
+m2 selector: #number.
+
+self assert: (m1 typeOf: Dictionary new) equals: (m2 typeOf: Dictionary new).
+
+
+
+]
+
+{ #category : #tests }
 OOMethodTITests >> testSmallIntegerMethodAssignAndReturnTyping [
 
 | aMethod expectedType x args |

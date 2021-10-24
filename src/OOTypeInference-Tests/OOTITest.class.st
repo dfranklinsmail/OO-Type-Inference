@@ -135,26 +135,6 @@ OOTITest >> testOccurs1 [
 ]
 
 { #category : #tests }
-OOTITest >> testSameMethod1 [
-	| m1 expectedType a1 a2 arguments |
-	"test that ('a -> 'b) -> ('a -> 'b) is not the same as ('b -> 'a) -> ('a -> 'b)"
-	a1 := Int new.
-	a2 := Int new.
-	
-	m1 := Mthd new.
-	m1 addArgument: a1.
-	m1 addStatement: a2.
-	
-	expectedType := m1 typeOf: Dictionary new.  
-	
-	arguments := OrderedCollection new.
-	arguments add: (TCls class: (Int class)).
-	
-	self assert: (TArrow type: arguments arrow: (TCls class: (Int class))) equals: expectedType.
-
-]
-
-{ #category : #tests }
 OOTITest >> testSimpleClassTypeCheck [
 	"test that a brand new class has a type TCls"
 	self assert: (TCls new) equals: ((Cls new) typeOf: nil).

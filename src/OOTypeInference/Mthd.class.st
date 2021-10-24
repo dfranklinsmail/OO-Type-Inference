@@ -63,7 +63,7 @@ Mthd >> typeOfArguments: environment [
 { #category : #accessing }
 Mthd >> typeOfSteatments: environment [
 	| result |
-	statements  isEmpty ifTrue: [ ^ TVar newvar. ]
+	statements  isEmpty ifTrue: [ ^ TVar newvar. ] "should this return a reference to the class type?"
 	ifFalse: [ statements do: [ :exp | result := exp typeOf: environment. ] ].
 	^result.
 	
