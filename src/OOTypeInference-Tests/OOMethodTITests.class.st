@@ -56,6 +56,22 @@ OOMethodTITests >> testSameMethod1 [
 ]
 
 { #category : #tests }
+OOMethodTITests >> testSelectorsDontMatch [
+
+| m1 m2 |
+m1 := Mthd new.
+m1 selector: #number.
+
+m2 := Mthd new.
+m2 selector: #string.
+
+self assert: (m1 typeOf: Dictionary new) equals: (m2 typeOf: Dictionary new).
+
+
+
+]
+
+{ #category : #tests }
 OOMethodTITests >> testSelectorsMatch [
 
 | m1 m2 |
