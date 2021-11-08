@@ -27,6 +27,7 @@ Send >> typeOf: environment [
 		ifPresent: [ "should we do anything here? Should we unify the value in the environment with the latest typeof"
 						 ^environment at:self. ] 
 		ifAbsentPut: [ typeOf := TInterface new.
+							typeOf addSelector: selector.
 							environment at: self put: typeOf].
 		
 	^environment at:self.

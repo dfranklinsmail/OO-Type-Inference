@@ -21,7 +21,9 @@ TInterface >> initialize [
 TInterface >> isSameType: aToyTyp env: scratchPad [
 aToyTyp isTInterface ifFalse: [ "return error, can only compare to another TInterface" ^false. ].
 "Does the given TInterface have all the selectors that I have"
-selectors do: [ :selector | (aToyTyp selectors indexOf: selector) = 0 ifTrue: [^false.]].
+selectors do: [ :selector | 
+						(aToyTyp selectors indexOf: selector) = 0 ifTrue: [^false.]
+					].
 ^true.
 
 
