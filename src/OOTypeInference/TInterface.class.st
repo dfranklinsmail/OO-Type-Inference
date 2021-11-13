@@ -38,3 +38,12 @@ TInterface >> isTInterface [
 TInterface >> selectors [
 	^ selectors.
 ]
+
+{ #category : #'as yet unclassified' }
+TInterface >> unify: aTyp [
+	aTyp isTInterface ifFalse: [	"can only unify with another TInterface."
+											^ self unifyFail: aTyp. ].
+	"add all the selectors that are not in common"
+	selectors do: [ :selector | aTyp selectors indexOf: selector ifAbsent: [aTyp addSelector: selector]].
+	aTyp unify: self.
+]
