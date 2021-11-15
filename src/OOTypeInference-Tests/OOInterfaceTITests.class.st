@@ -45,7 +45,8 @@ OOInterfaceTITests >> testTwoInterfacesAreUnifiable [
 	tUnified addSelector: #subtract.
 	
 	t1 unify: t2. 
-	
 	self assert: ( t1 isSameType: tUnified env: IdentityDictionary new).
+	
+	t2 unify: t1.
 	self assert: ( t2 isSameType: tUnified env: IdentityDictionary new).
 ]

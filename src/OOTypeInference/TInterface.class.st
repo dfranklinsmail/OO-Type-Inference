@@ -45,5 +45,4 @@ TInterface >> unify: aTyp [
 											^ self unifyFail: aTyp. ].
 	"add all the selectors that are not in common"
 	selectors do: [ :selector | aTyp selectors indexOf: selector ifAbsent: [aTyp addSelector: selector]].
-	aTyp unify: self.
 ]
