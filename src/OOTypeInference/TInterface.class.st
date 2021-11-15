@@ -18,15 +18,13 @@ TInterface >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-TInterface >> isSameType: aToyTyp env: scratchPad [
-aToyTyp isTInterface ifFalse: [ "return error, can only compare to another TInterface" ^false. ].
+TInterface >> isSameType: aTyp env: scratchPad [
+
+aTyp isTInterface ifFalse: [ "return error, can only compare to another TInterface" ^false. ].
+
 "Does the given TInterface have all the selectors that I have"
-selectors do: [ :selector | 
-						(aToyTyp selectors indexOf: selector) = 0 ifTrue: [^false.]
-					].
+(aTyp selectors) do: [ :selector | selectors indexOf: selector ifAbsent: [ ^false.]].
 ^true.
-
-
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,5 +42,5 @@ TInterface >> unify: aTyp [
 	aTyp isTInterface ifFalse: [	"can only unify with another TInterface."
 											^ self unifyFail: aTyp. ].
 	"add all the selectors that are not in common"
-	selectors do: [ :selector | aTyp selectors indexOf: selector ifAbsent: [aTyp addSelector: selector]].
+	(aTyp selectors) do: [ :selector | selectors indexOf: selector ifAbsent: [self addSelector: selector]].
 ]
