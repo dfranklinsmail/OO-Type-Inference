@@ -290,7 +290,7 @@ FunctionTITest >> testSimpleToyVar [
 	| toy type expectedType |
 	toy := Var varname: #y.
 	expectedType := TVar newvar.
-	type := toy typeOf: nil.
-	self deny: type equals: expectedType.
+	type := toy typeOf: Dictionary new.
+	self assert: type equals: expectedType.
 
 ]
