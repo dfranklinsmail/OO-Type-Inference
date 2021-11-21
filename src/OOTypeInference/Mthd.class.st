@@ -42,6 +42,12 @@ Mthd >> selector: aSelector [
 ]
 
 { #category : #accessing }
+Mthd >> setArguments: someArguments [
+	arguments := someArguments.
+	
+]
+
+{ #category : #accessing }
 Mthd >> statements: someStatements arguments: someArguments [
 	statements := someStatements.
 	arguments := someArguments.

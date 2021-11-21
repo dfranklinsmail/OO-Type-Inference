@@ -16,12 +16,12 @@ OrderedCollection >> isSameTypes: aCollection [
 ]
 
 { #category : #'*OOTypeInference' }
-OrderedCollection >> isSameTypes: aCollection env: aEnvironment [
+OrderedCollection >> isSameTypes: aCollection env: anEnviroment [
 	| result |
 	result := true.
 	self size = aCollection size ifTrue: [ 
 		1 to: (self size) do: [ :i |
-  			result := result and: ((self at: i) isSameType: (aCollection at: i)).
+  			result := result and: ((self at: i) isSameType: (aCollection at: i) env: anEnviroment).
 		].
 		^result.
 	].

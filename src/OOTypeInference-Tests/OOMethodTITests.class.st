@@ -18,11 +18,13 @@ OOMethodTITests >> testAssignmentTypeOf [
 { #category : #tests }
 OOMethodTITests >> testIntegerArgumentAndReturnMethodTyping [
 
-| aMethod expectedType args |
+| aMethod expectedType args arguments |
 aMethod := Mthd new.
 aMethod selector: #number.
 
-aMethod addArgument: (Asn varname: #y expression: (Int new)).
+arguments := OrderedCollection new.
+arguments add: (Asn varname: #y expression: (Int new)).
+aMethod setArguments: arguments.
 
 aMethod addStatement: (Asn varname: #x expression: (Int new)).
 aMethod addStatement: (Rtrn exp: (Var varname: #x)).
