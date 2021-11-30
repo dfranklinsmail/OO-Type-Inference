@@ -41,5 +41,8 @@ Cls >> methods: myMethods [.
 
 { #category : #accessing }
 Cls >> typeOf: environment [
-	^ TCls new.
+	| aTCls |
+	aTCls:= TCls class: (Int class).
+	methods do: [ :mthd | aTCls addMethod: (mthd typeOf: environment). ].
+	^ aTCls.
 ]

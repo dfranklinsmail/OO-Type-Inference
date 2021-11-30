@@ -37,3 +37,30 @@ OOClassTITest >> testSelectorSortOrder [
 	
 	
 ]
+
+{ #category : #tests }
+OOClassTITest >> testSimpleType [
+	"tests that a class can sort a collection of methods"	
+	
+	| aCls |
+	aCls := Cls new.
+	self assert: (aCls typeOf: Dictionary new) equals: (TCls new).
+	
+	
+	
+]
+
+{ #category : #tests }
+OOClassTITest >> testSimpleTypeWithMethod [
+	"tests that a class can sort a collection of methods"	
+	
+	| aCls aMthd arg1 |
+	arg1 := Var varname: 'arg1'.
+	aMthd := Mthd selector: 'firstMethod' arguments: arg1.
+	
+	aCls := Cls new.
+	aCls addMethod: aMthd.
+	self deny: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
+	
+
+]
