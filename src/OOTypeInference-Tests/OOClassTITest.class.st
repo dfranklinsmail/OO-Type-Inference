@@ -52,15 +52,22 @@ OOClassTITest >> testSimpleType [
 
 { #category : #tests }
 OOClassTITest >> testSimpleTypeWithMethod [
-	"tests that a class can sort a collection of methods"	
+	"tests that a class class with a method is equal to a type class with a method"	
 	
-	| aCls aMthd arg1 |
+	| aCls aMthd arg1 env aTCls |
 	arg1 := Var varname: 'arg1'.
 	aMthd := Mthd selector: 'firstMethod' arguments: arg1.
 	
 	aCls := Cls new.
 	aCls addMethod: aMthd.
 	self deny: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
+	
+	env := IdentityDictionary new.
+	aTCls := TCls new.
+	aTCls addMethod: (aMthd typeOf: env).
+	
+	self assert: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	
 	
 
 ]
