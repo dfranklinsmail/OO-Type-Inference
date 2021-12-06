@@ -51,6 +51,29 @@ OOClassTITest >> testSimpleType [
 ]
 
 { #category : #tests }
+OOClassTITest >> testSimpleTypeWithDifferntMethods [
+	"tests that a class class with a method is equal to a type class with a method"	
+	
+	| aCls aMthd1 arg1 aMthd2 env aTCls |
+	arg1 := Var varname: 'arg1'.
+	aMthd1 := Mthd selector: 'firstMethod' arguments: arg1.
+	aMthd2 := Mthd selector: 'secondMethod' arguments: arg1.
+	
+	aCls := Cls new.
+	aCls addMethod: aMthd1.
+	self deny: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
+	
+	env := IdentityDictionary new.
+	aTCls := TCls new.
+	aTCls addMethod: (aMthd2 typeOf: env).
+	
+	self deny: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	
+	
+
+]
+
+{ #category : #tests }
 OOClassTITest >> testSimpleTypeWithMethod [
 	"tests that a class class with a method is equal to a type class with a method"	
 	

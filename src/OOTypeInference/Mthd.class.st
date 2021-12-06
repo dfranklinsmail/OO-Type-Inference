@@ -56,8 +56,7 @@ Mthd >> statements: someStatements arguments: someArguments [
 { #category : #accessing }
 Mthd >> typeOf: environment [
 	"A Method's type is a TArror (a->b), where a is the type of the arguments and b is the results type"
-	^TArrow type: (self typeOfArguments: environment) arrow: (self typeOfSteatments: environment).
-	
+	^TMthd selector: selector type: (self typeOfArguments: environment) arrow: (self typeOfSteatments: environment).
 ]
 
 { #category : #accessing }

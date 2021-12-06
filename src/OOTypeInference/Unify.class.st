@@ -35,6 +35,11 @@ Unify >> isTInterface [
 ]
 
 { #category : #'as yet unclassified' }
+Unify >> isTMthd [
+	^false.
+]
+
+{ #category : #'as yet unclassified' }
 Unify >> isTObj [
 	^ false.
 ]
