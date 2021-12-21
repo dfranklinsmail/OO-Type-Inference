@@ -5,6 +5,33 @@ Class {
 }
 
 { #category : #tests }
+OOClassTITest >> testAddDuplicateMethodDifferentTypesToCls [
+	"tests that a class class with a method is equal to a type class with a method"	
+	
+	| argA aMthdA  argB aMthdB aTCls aCls typMthdA typMthdB unifiedMethod |
+	argA := Int new.
+	aMthdA := Mthd selector: 'myPolymorphicMethod' arguments: argA.
+	argB := Char new.
+	aMthdB := Mthd selector: 'myPolymorphicMethod' arguments: argB.
+	
+	aCls := Cls new.
+	aCls addMethod: aMthdA.
+	aCls addMethod: aMthdB.
+	self deny: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
+	
+	aTCls := TCls new.
+	typMthdA := (aMthdA typeOf: IdentityDictionary new).
+	typMthdB := (aMthdB typeOf: IdentityDictionary new).
+	unifiedMethod := typMthdA unifyWith: typMthdB.
+	aTCls addMethod: unifiedMethod.
+	
+	self deny: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	
+	
+
+]
+
+{ #category : #tests }
 OOClassTITest >> testSelectorSortOrder [
 	"tests that a class can sort a collection of methods"	
 			

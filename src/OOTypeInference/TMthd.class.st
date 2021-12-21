@@ -7,9 +7,9 @@ Class {
 	#category : #'OOTypeInference-Types'
 }
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 TMthd class >> selector: selector type: aTyp1 arrow: aTyp2 [
-	^ self new selector: selector type: aTyp1 arrow: aTyp2.
+	^ self new selector: selector; type: aTyp1 arrow: aTyp2.
 ]
 
 { #category : #accessing }
@@ -27,8 +27,19 @@ TMthd >> isTMthd [
 ]
 
 { #category : #accessing }
+TMthd >> printOn: aStream [
+	aStream nextPutAll: selector, ' FOR: '.
+	super printOn: aStream
+]
+
+{ #category : #accessing }
 TMthd >> selector [
 	^selector.
+]
+
+{ #category : #accessing }
+TMthd >> selector: aSelector [
+	selector := aSelector.
 ]
 
 { #category : #accessing }

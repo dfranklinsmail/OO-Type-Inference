@@ -18,9 +18,10 @@ OOMethodTITests >> testAssignmentTypeOf [
 { #category : #tests }
 OOMethodTITests >> testIntegerArgumentAndReturnMethodTyping [
 
-| aMethod expectedType args arguments |
+| aMethod expectedType args arguments aSelector |
+aSelector := #number.
 aMethod := Mthd new.
-aMethod selector: #number.
+aMethod selector: aSelector.
 
 arguments := OrderedCollection new.
 arguments add: (Asn varname: #y expression: (Int new)).
@@ -31,10 +32,9 @@ aMethod addStatement: (Rtrn exp: (Var varname: #x)).
 
 args := OrderedCollection new.
 args add: (TCls class: (Int class)).
-expectedType := TArrow type: args  arrow: (TCls class: (Int class)).
+expectedType := TMthd selector: aSelector type: args  arrow: (TCls class: (Int class)).
+
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
-
-
 ]
 
 { #category : #tests }
@@ -140,15 +140,41 @@ self assert: (aMethod typeOf: nil)equals: expectedType.
 { #category : #tests }
 OOMethodTITests >> testSmallIntegerVariableMethodWithImplicitReturnTyping [
 
-| aMethod expectedType args |
+| aMethod expectedType args aSelector |
+aSelector := #number.
 aMethod := Mthd new.
-aMethod selector: #number.
+aMethod selector: aSelector.
 aMethod addStatement: (Asn varname: #x expression: (Int new)).
 
 args := OrderedCollection new.
-expectedType := TArrow type: args arrow: (TCls class: (Int class)).
+expectedType := TMthd selector: aSelector type: args arrow: (TCls class: (Int class)).
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 
 
 
+]
+
+{ #category : #tests }
+OOMethodTITests >> testUnifyMthd [
+
+	| aSelector argA aMthdA argB aMthdB typMthdA typMthdB args expectedUnificationLooksLike |
+	aSelector := #myPolymorphicMethod.
+	argA := Int new.
+	aMthdA := Mthd selector: aSelector arguments: argA.
+	argB := Char new.
+	aMthdB := Mthd selector: aSelector arguments: argB.
+	
+	"get the types of both methods"
+	typMthdA := (aMthdA typeOf: IdentityDictionary new).
+	typMthdB := (aMthdB typeOf: IdentityDictionary new).
+	
+	"unify typMthdA with typMthdB "
+	typMthdA unifyWith: typMthdB.
+	
+	args := OrderedCollection new.
+	args add: (TCls class: (Int class)).
+	args add: (TCls class: (Char class)).
+	
+	expectedUnificationLooksLike := TMthd selector: aSelector type: args arrow: (OrderedCollection new).
+	self assert: typMthdA equals: expectedUnificationLooksLike.
 ]

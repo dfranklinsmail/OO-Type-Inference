@@ -62,6 +62,7 @@ TVar >> occurs: aTyp [
 	].
 	aTyp isTArrow ifTrue: [ ^ (self occurs: aTyp typ1) & (self occurs: aTyp typ2) ].
 	aTyp isLink ifTrue: [ ^ self occurs: (aTyp link)].
+	^false.
 ]
 
 { #category : #printing }
@@ -73,6 +74,7 @@ TVar >> printNestedOn: aStream [
 
 { #category : #printing }
 TVar >> printOn: aStream [
+	aStream nextPutAll: ' TVar: '.
 	tv printOn: aStream.
 
 	
