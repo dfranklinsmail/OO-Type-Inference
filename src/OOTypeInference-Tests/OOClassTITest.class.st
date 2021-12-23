@@ -8,11 +8,15 @@ Class {
 OOClassTITest >> testAddDuplicateMethodDifferentTypesToCls [
 	"tests that a class class with a method is equal to a type class with a method"	
 	
-	| argA aMthdA  argB aMthdB aTCls aCls typMthdA typMthdB unifiedMethod |
+	| argA aMthdA  argB aMthdB aTCls aCls typMthdA typMthdB unifiedMethod argListA argListB |
 	argA := Int new.
-	aMthdA := Mthd selector: 'myPolymorphicMethod' arguments: argA.
+	argListA := OrderedCollection new.
+	argListA add: argA.
+	aMthdA := Mthd selector: 'myPolymorphicMethod' arguments: argListA.
 	argB := Char new.
-	aMthdB := Mthd selector: 'myPolymorphicMethod' arguments: argB.
+	argListB := OrderedCollection new.
+	argListB add: argB.
+	aMthdB := Mthd selector: 'myPolymorphicMethod' arguments: argListB.
 	
 	aCls := Cls new.
 	aCls addMethod: aMthdA.
