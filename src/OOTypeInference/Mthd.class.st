@@ -17,7 +17,7 @@ Mthd class >> new [
 { #category : #'as yet unclassified' }
 Mthd class >> selector: aSelector arguments: listOfArguments [
 	"Creates a new method with the given anme and list of arguments"	
-	^self new selector: aSelector.
+	^self new selector: aSelector; setArguments:  listOfArguments
 ]
 
 { #category : #accessing }
@@ -68,8 +68,8 @@ Mthd >> typeOfArguments: environment [
 { #category : #accessing }
 Mthd >> typeOfSteatments: environment [
 	| result |
-	statements  isEmpty ifTrue: [ ^ TVar newvar. ] "should this return a reference to the class type?"
-	ifFalse: [ statements do: [ :exp | result := exp typeOf: environment. ] ].
+	statements  isEmpty ifTrue: [ ^ TVar newvar. ] "This should return the type of self, and return it as a list!"
+	ifFalse: [ statements do: [ :exp | result := exp typeOf: environment. ] ]. "This sould return a list and not just the result of the last type, muliple returns are possible."
 	^result.
 	
 ]

@@ -67,7 +67,7 @@ m1 selector: #number.
 m2 := Mthd new.
 m2 selector: #string.
 
-self assert: (m1 typeOf: Dictionary new) equals: (m2 typeOf: Dictionary new).
+self deny: (m1 typeOf: Dictionary new) equals: (m2 typeOf: Dictionary new).
 
 
 
@@ -157,12 +157,17 @@ self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 { #category : #tests }
 OOMethodTITests >> testUnifyMthd [
 
-	| aSelector argA aMthdA argB aMthdB typMthdA typMthdB args expectedUnificationLooksLike |
+	| aSelector argA aMthdA argB aMthdB typMthdA typMthdB args expectedUnificationLooksLike argListA argListB |
+	"create two methods with the same selector but different argument types"
 	aSelector := #myPolymorphicMethod.
 	argA := Int new.
-	aMthdA := Mthd selector: aSelector arguments: argA.
+	argListA := OrderedCollection new.
+	argListA add: argA.
+	aMthdA := Mthd selector: aSelector arguments: argListA.
 	argB := Char new.
-	aMthdB := Mthd selector: aSelector arguments: argB.
+	argListB := OrderedCollection new.
+	argListB add: argB.
+	aMthdB := Mthd selector: aSelector arguments: argListB.
 	
 	"get the types of both methods"
 	typMthdA := (aMthdA typeOf: IdentityDictionary new).
@@ -175,6 +180,6 @@ OOMethodTITests >> testUnifyMthd [
 	args add: (TCls class: (Int class)).
 	args add: (TCls class: (Char class)).
 	
-	expectedUnificationLooksLike := TMthd selector: aSelector type: args arrow: (OrderedCollection new).
+	expectedUnificationLooksLike := TMthd selector: aSelector type: args arrow: (TVar newvar).
 	self assert: typMthdA equals: expectedUnificationLooksLike.
 ]

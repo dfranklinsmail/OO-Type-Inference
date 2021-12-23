@@ -6,3 +6,8 @@ Class {
 	],
 	#category : #'OOTypeInference-LanguageValues'
 }
+
+{ #category : #accessing }
+Char >> typeOf: environment [
+	^TObj from: Char class.
+]

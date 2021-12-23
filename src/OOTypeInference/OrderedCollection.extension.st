@@ -18,7 +18,4 @@ OrderedCollection >> isSameTypes: aCollection env: anEnviroment [
 OrderedCollection >> unify: anOrderedCollection [
 	(self size = anOrderedCollection size) ifFalse: [ ^ Exception new. ].
 	self with: anOrderedCollection do: [ :typ1 :typ2 | typ1 unify: typ2. ].
-	
-	
-	
 ]

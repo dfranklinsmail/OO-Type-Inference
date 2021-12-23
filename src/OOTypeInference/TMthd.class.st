@@ -47,3 +47,10 @@ TMthd >> selector: aSelector type: aTyp1 arrow: aTyp2 [
 	selector := aSelector.
 	self type: aTyp1 arrow: aTyp2.
 ]
+
+{ #category : #accessing }
+TMthd >> unifyWith: aTMthd [
+	aTMthd isTMthd ifFalse: [ ^ Error new. ].
+	selector = aTMthd selector ifFalse: [ ^Error new. ].
+	
+]
