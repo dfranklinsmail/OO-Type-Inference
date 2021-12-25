@@ -85,10 +85,12 @@ OOClassTITest >> testSimpleType [
 OOClassTITest >> testSimpleTypeWithDifferntMethods [
 	"tests that a class class with a method is equal to a type class with a method"	
 	
-	| aCls aMthd1 arg1 aMthd2 env aTCls |
+	| aCls aMthd1 arg1 aMthd2 env aTCls argList |
 	arg1 := Var varname: 'arg1'.
-	aMthd1 := Mthd selector: 'firstMethod' arguments: arg1.
-	aMthd2 := Mthd selector: 'secondMethod' arguments: arg1.
+	argList := OrderedCollection new.
+	argList add: arg1.
+	aMthd1 := Mthd selector: 'firstMethod' arguments: argList.
+	aMthd2 := Mthd selector: 'secondMethod' arguments: argList.
 	
 	aCls := Cls new.
 	aCls addMethod: aMthd1.
@@ -108,9 +110,11 @@ OOClassTITest >> testSimpleTypeWithDifferntMethods [
 OOClassTITest >> testSimpleTypeWithMethod [
 	"tests that a class class with a method is equal to a type class with a method"	
 	
-	| aCls aMthd arg1 env aTCls |
+	| aCls aMthd arg1 env aTCls argList |
 	arg1 := Var varname: 'arg1'.
-	aMthd := Mthd selector: 'firstMethod' arguments: arg1.
+	argList := OrderedCollection new.
+	argList add: arg1.
+	aMthd := Mthd selector: 'firstMethod' arguments: argList.
 	
 	aCls := Cls new.
 	aCls addMethod: aMthd.
