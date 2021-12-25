@@ -74,7 +74,6 @@ TVar >> printNestedOn: aStream [
 
 { #category : #printing }
 TVar >> printOn: aStream [
-	aStream nextPutAll: ' TVar: '.
 	tv printOn: aStream.
 
 	
