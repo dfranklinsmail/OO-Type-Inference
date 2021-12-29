@@ -14,19 +14,18 @@ Class {
 
 { #category : #accessing }
 Cls >> addMethod: method [
-	methods = nil ifTrue: [ methods := OrderedCollection new. ]. "probably don't need this as it in initiazlie"
 	methods add: method.
 ]
 
-{ #category : #'class initialization' }
-Cls >> initialize [ 
-	super initialize.
-	methods := OrderedCollection new.
+{ #category : #accessing }
+Cls >> addVariable: aVariable [
+	variables add: aVariable.
 ]
 
 { #category : #accessing }
-Cls >> isSameType: aToyTyp env: aMap [
-	self halt.
+Cls >> initialize [
+	variables := OrderedCollection new.
+	methods := OrderedCollection new.
 ]
 
 { #category : #accessing }
@@ -43,6 +42,8 @@ Cls >> methods: myMethods [.
 Cls >> typeOf: environment [
 	| aTCls |
 	aTCls:= TCls class: (Int class).
+	"should I do the variables typing first? typing of the methods will change variable types"
+	variables do: [ :vr | aTCls addVariable: (vr typeOf: environment). ].
 	methods do: [ :mthd | aTCls addMethod: (mthd typeOf: environment). ].
 	^ aTCls.
 ]

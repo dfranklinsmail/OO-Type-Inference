@@ -129,3 +129,27 @@ OOClassTITest >> testSimpleTypeWithMethod [
 	
 
 ]
+
+{ #category : #tests }
+OOClassTITest >> testSimpleTypeWithVariables [
+	"tests that a class class with a method is equal to a type class with a method"	
+	
+	| aCls aTCls var |
+	aCls := Cls new.
+	"assert an empty class has the type of an emtpy class type"
+	self assert: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
+	
+	"add a variable and deny that a class with a type has the same type as an empty class type"
+	var := Var varname: 'arg1'.
+	aCls addVariable: var.
+	self deny: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
+	
+	"assert a class type with a method type corrisponding to the 'firstMethod's type does match the type of the 'aCls'"
+	aTCls := TCls new.
+	aTCls addVariable: (var typeOf: IdentityDictionary new).
+	
+	self assert: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	
+	
+
+]
