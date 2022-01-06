@@ -28,7 +28,7 @@ Var >> printOn: aStream [
 { #category : #'as yet unclassified' }
 Var >> typeOf: env [ 
    (env includesKey: varname) ifTrue: [ ^ env at: varname ].
-   ^ self newvar.
+   ^ TVar newvar.
 ]
 
 { #category : #accessing }

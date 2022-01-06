@@ -68,7 +68,7 @@ Mthd >> typeOfArguments: environment [
 { #category : #accessing }
 Mthd >> typeOfSteatments: environment [
 	| result |
-	statements  isEmpty ifTrue: [ ^ TVar newvar. ] "This should return the type of self, and return it as a list!"
+	statements  isEmpty ifTrue: [ ^ TCls class: (self class). ] "This should return the type of self, and return it as a list!"
 	ifFalse: [ statements do: [ :exp | result := exp typeOf: environment. ] ]. "This sould return a list and not just the result of the last type, muliple returns are possible."
 	^result.
 	

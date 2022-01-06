@@ -180,6 +180,6 @@ OOMethodTITests >> testUnifyMthd [
 	args add: (TCls class: (Int class)).
 	args add: (TCls class: (Char class)).
 	
-	expectedUnificationLooksLike := TMthd selector: aSelector type: args arrow: (TVar newvar).
+	expectedUnificationLooksLike := TMthd selector: aSelector type: args arrow: (TCls class: (self class)).
 	self assert: typMthdA equals: expectedUnificationLooksLike.
 ]

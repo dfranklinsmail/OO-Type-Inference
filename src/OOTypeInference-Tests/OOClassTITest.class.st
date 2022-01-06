@@ -110,11 +110,12 @@ OOClassTITest >> testSimpleTypeWithDifferntMethods [
 OOClassTITest >> testSimpleTypeWithMethod [
 	"tests that a class class with a method is equal to a type class with a method"	
 	
-	| aCls aMthd arg1 env aTCls argList |
+	| aCls aMthd arg1 env aTCls argList aSelector args |
+	aSelector := 'firstMethod'.
 	arg1 := Var varname: 'arg1'.
 	argList := OrderedCollection new.
 	argList add: arg1.
-	aMthd := Mthd selector: 'firstMethod' arguments: argList.
+	aMthd := Mthd selector: aSelector arguments: argList.
 	
 	aCls := Cls new.
 	aCls addMethod: aMthd.
@@ -122,9 +123,52 @@ OOClassTITest >> testSimpleTypeWithMethod [
 	
 	env := IdentityDictionary new.
 	aTCls := TCls new.
-	aTCls addMethod: (aMthd typeOf: env).
+	args := OrderedCollection new.
+	args add: TVar newvar.
+	aTCls addMethod: (TMthd selector: aSelector type: args arrow: (TCls class: (Int class))).
 	
 	self assert: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	
+	
+
+]
+
+{ #category : #tests }
+OOClassTITest >> testSimpleTypeWithVariableAndType [
+	"this test has ...
+	 	1. a class with one variable and a method
+		2. the method has a statement that assigns the classes class variable a type of Int.
+		3. the type of the class is a TCls with a TVar of type Int.
+		4. the method's type is not relavent
+	this test will show that a class variables type can be assigned via a methods statements"	
+	
+	| aCls aTCls var varname aMethod aSelector |
+	aCls := Cls new.
+	"assert an empty class has the type of an emtpy class type"
+	self assert: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
+	
+	"assert a class type with a method type corrisponding to the 'firstMethod's type does match the type of the 'aCls'"
+	varname := 'arg1'.
+	var := Var varname: varname.
+	aCls addVariable: var.
+	aTCls := TCls new.
+	aTCls addVariable: (var typeOf: IdentityDictionary new).
+	
+	self assert: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	
+	"create a method that updates the type of the class variable"
+	aSelector := #number.
+	aMethod := Mthd new.
+	aMethod selector: aSelector.
+	aMethod addStatement: (Asn varname: varname expression: (Int new)).
+	aMethod addStatement: (Rtrn exp: (Int new)).
+	aCls addMethod: aMethod.
+	
+	aTCls addMethod: (TMthd selector: aSelector type: (OrderedCollection new) arrow: (TCls class: (Int new))).
+	self assert: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	
+	
+	
 	
 	
 
