@@ -43,7 +43,7 @@ Cls >> typeOf: environment [
 	| aTCls |
 	aTCls:= TCls class: (Int class).
 	"should I do the variables typing first? typing of the methods will change variable types"
-	variables do: [ :vr | aTCls addVariable: (vr typeOf: environment). ].
+	variables do: [ :vr | aTCls addVariable: "need to wrap in a type with both name and type"(vr typeOf: environment). ].
 	methods do: [ :mthd | aTCls addMethod: (mthd typeOf: environment). ].
 	^ aTCls.
 ]
