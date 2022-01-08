@@ -142,7 +142,7 @@ OOClassTITest >> testSimpleTypeWithVariableAndType [
 		4. the method's type is not relavent
 	this test will show that a class variables type can be assigned via a methods statements"	
 	
-	| aCls aTCls var varname aMethod aSelector |
+	| aCls aTCls var varname aMethod aSelector anotherTCls |
 	aCls := Cls new.
 	"assert an empty class has the type of an emtpy class type"
 	self assert: (aCls typeOf: IdentityDictionary new) equals: (TCls new).
@@ -164,8 +164,10 @@ OOClassTITest >> testSimpleTypeWithVariableAndType [
 	aMethod addStatement: (Rtrn exp: (Int new)).
 	aCls addMethod: aMethod.
 	
-	aTCls addMethod: (TMthd selector: aSelector type: (OrderedCollection new) arrow: (TCls class: (Int new))).
-	self assert: (aCls typeOf: IdentityDictionary new) equals: aTCls.
+	anotherTCls := TCls new.
+	anotherTCls addVariable: ((Int new) typeOf: IdentityDictionary new).
+	anotherTCls addMethod: (TMthd selector: aSelector type: (OrderedCollection new) arrow: (TCls class: (Int new))).
+	self assert: (aCls typeOf: IdentityDictionary new) equals: anotherTCls.
 	
 	
 	

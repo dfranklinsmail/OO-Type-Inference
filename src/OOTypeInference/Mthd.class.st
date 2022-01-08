@@ -68,8 +68,12 @@ Mthd >> typeOfArguments: environment [
 { #category : #accessing }
 Mthd >> typeOfSteatments: environment [
 	| result |
+	"the type of the statments can,
+	 - have a number of side effect
+			1. assign values to class variables
+			2. send messages to arguments, resulting in method calls of other classes
+	 - will return one or more types."
 	statements  isEmpty ifTrue: [ ^ TCls class: (self class). ] "This should return the type of self, and return it as a list!"
 	ifFalse: [ statements do: [ :exp | result := exp typeOf: environment. ] ]. "This sould return a list and not just the result of the last type, muliple returns are possible."
 	^result.
-	
 ]
