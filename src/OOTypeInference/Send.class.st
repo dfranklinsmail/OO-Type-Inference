@@ -9,6 +9,16 @@ Class {
 	#category : #'OOTypeInference-Language'
 }
 
+{ #category : #'as yet unclassified' }
+Send class >> target: aTarget selector: aMethodSelector arguments: argList [
+	^self new target: aTarget selector: aMethodSelector arguments: argList
+]
+
+{ #category : #accessing }
+Send >> arguments: argList [
+	arguments := argList.
+]
+
 { #category : #accessing }
 Send >> selector: aSelector [
 	selector := aSelector.
@@ -17,6 +27,13 @@ Send >> selector: aSelector [
 { #category : #accessing }
 Send >> target: aTarget [
 	target := aTarget.
+]
+
+{ #category : #accessing }
+Send >> target: aTarget selector: aMethodSelector arguments: argList [
+	selector := aMethodSelector.
+	target := aTarget.
+	arguments := argList.
 ]
 
 { #category : #accessing }

@@ -90,22 +90,6 @@ self assert: (m1 typeOf: Dictionary new) equals: (m2 typeOf: Dictionary new).
 ]
 
 { #category : #tests }
-OOMethodTITests >> testSmallIntegerMethodAssignAndReturnTyping [
-
-| aMethod expectedType x args |
-aMethod := Mthd new.
-aMethod selector: #number.
-x:= (Asn varname: #x expression: (Int new)).
-aMethod addStatement: x.
-aMethod addStatement: (Rtrn exp: (Var varname: #x)).
-
-args := OrderedCollection new.
-expectedType := TArrow type: args arrow: (TCls class: (Int class)).
-self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
-
-]
-
-{ #category : #tests }
 OOMethodTITests >> testSmallIntegerMethodLastStatementTyping [
 
 | aMethod expectedType args |
