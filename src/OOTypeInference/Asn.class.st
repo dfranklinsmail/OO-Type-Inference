@@ -17,7 +17,7 @@ Asn class >> varname: aVarname expression: anExpression [
 Asn >> typeOf: env [
 	| typeOfExp |
 	typeOfExp := expression typeOf: env.
-	env at: varname put: typeOfExp. "does this make sense? or should I call class?"
+	env at: varname put: (TVar tv: typeOfExp). "does this make sense? or should I call class?"
 	^TVar tv: typeOfExp.
 
 

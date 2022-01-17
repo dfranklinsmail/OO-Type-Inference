@@ -32,12 +32,12 @@ self assert: (aClass typeOf: Dictionary new) equals: expextedClsType.
 { #category : #tests }
 ASNTests >> testAssToClassVar [
 "test a local variable can be assigned a type, which is returned by the method"
-| aMethod aClass expectedClsType aSelector |
+| aMethod aClass expectedClsType aMethodSelector |
 
 "number: year"
-aSelector := #number.
+aMethodSelector := #number.
 aMethod := Mthd new.
-aMethod selector: aSelector.
+aMethod selector: aMethodSelector.
 aMethod addStatement: (Asn varname: #x expression: (Int new)).
 
 "class with method number:year
@@ -47,10 +47,9 @@ aClass addMethod: aMethod.
 aClass addVariable: (Var varname: #x).
 
 expectedClsType := TCls new.
-
-expectedClsType addMethod: (TMthd selector: aSelector type: (OrderedCollection new) arrow: (OrderedCollection new)).
-	
+expectedClsType addMethod: (TMthd selector: aMethodSelector type: (OrderedCollection new) arrow: (TCls class:self)).
 expectedClsType addVariable: (TVar tv: (TCls class: (Int class))).
+
 self assert: (aClass typeOf: Dictionary new) equals: expectedClsType.
 
 "var := Var varname: #x."
