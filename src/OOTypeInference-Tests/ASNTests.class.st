@@ -22,8 +22,10 @@ aClass := Cls new.
 aClass addMethod: aMethod.
 
 
-expextedClsType := TCls new.
-expextedClsType addMethod: (TMthd selector: aMethodSelector type: (OrderedCollection new) arrow: (TCls class: (Int class))).
+expextedClsType := TCls class: (Int class).
+expextedClsType addMethod: (TMthd selector: aMethodSelector 
+											type: (OrderedCollection new:0) 
+											arrow: (TVar tv: (TCls class: (Int class)))).
 self assert: (aClass typeOf: Dictionary new) equals: expextedClsType.
 
 "var := Var varname: #x."
@@ -47,7 +49,9 @@ aClass addMethod: aMethod.
 aClass addVariable: (Var varname: #x).
 
 expectedClsType := TCls new.
-expectedClsType addMethod: (TMthd selector: aMethodSelector type: (OrderedCollection new) arrow: (TCls class:self)).
+expectedClsType addMethod: (TMthd selector: aMethodSelector 
+											type: (OrderedCollection new) 
+											arrow: (TVar tv: (TCls class:self))).
 expectedClsType addVariable: (TVar tv: (TCls class: (Int class))).
 
 self assert: (aClass typeOf: Dictionary new) equals: expectedClsType.
@@ -91,7 +95,7 @@ aMethod addStatement: x.
 aMethod addStatement: (Rtrn exp: (Var varname: #x)).
 
 args := OrderedCollection new.
-expectedType := TArrow type: args arrow: (TCls class: (Int class)).
+expectedType := TArrow type: args arrow: (TVar tv: (TCls class: (Int class))).
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 
 ]

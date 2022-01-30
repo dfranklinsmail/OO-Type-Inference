@@ -61,7 +61,6 @@ Mthd >> typeOf: environment [
 
 { #category : #accessing }
 Mthd >> typeOfArguments: environment [
-	| result |
 	^arguments collect: [ :exp | exp typeOf: environment. ].
 ]
 

@@ -41,7 +41,7 @@ Cls >> methods: myMethods [.
 { #category : #accessing }
 Cls >> typeOf: environment [
 	| aTCls |
-	aTCls:= TCls class: (Int class).
+	aTCls:= TCls class: (Int class). "do I know what the type of the class, or the class name is?"
 	"should I do the variables typing first? typing of the methods will change variable types"
 	variables do: [ :vr | aTCls addVariable: "need to wrap in a type with both name and type"(vr typeOf: environment). ].
 	methods do: [ :mthd | aTCls addMethod: (mthd typeOf: environment). ].
