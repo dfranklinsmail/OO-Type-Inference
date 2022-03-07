@@ -8,7 +8,7 @@ Class {
 FunctionTITest >> testEg1 [
 	" fun x -> let y = fun z -> z in y "
 
-	| toy env type t1 t2 expectedType |
+	| toy type t1 t2 expectedType args1 args2 |
 	toy := Lam
 	varname: #x
 		exp:
@@ -16,11 +16,17 @@ FunctionTITest >> testEg1 [
 				varname: #y
 				exp: (Lam varname: #z exp: (Var varname: #z))
 				exp: (Var varname: #y)).
-	env := nil.
+	args1 := OrderedCollection new.
 	t1 := TVar newvar.
+	args1 add: t1.
+	
+	
+	args2 := OrderedCollection new.
 	t2 := TVar newvar.
-	expectedType := TArrow type: t1  arrow: (TArrow type: t2 arrow: t2).
-	type := toy typeOf: env.
+	args2 add: t2.
+	
+	expectedType := TArrow argTypes: args1  arrow: (TArrow type: args2 arrow: t2).
+	type := toy typeOf: Dictionary new.
 	self assert: type equals: expectedType.
 
 ]

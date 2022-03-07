@@ -7,12 +7,15 @@ Class {
 { #category : #tests }
 ASNTests >> testAssToClassMethodReturnType [
 "test a local variable can be assigned a type, which is returned by the method"
-| aMethod aClass expextedClsType aMethodSelector |
+| aMethod aClass expextedClsType aMethodSelector args type |
 
 "number: year"
 aMethodSelector := #number.
 aMethod := Mthd new.
 aMethod selector: aMethodSelector.
+args := OrderedCollection new:1.
+args add: (Var varname: #x).
+aMethod setArguments: args.
 aMethod addStatement: (Asn varname: #x expression: (Int new)).
 aMethod addStatement: (Rtrn exp: (Var varname: #x)).
 
@@ -22,10 +25,14 @@ aClass := Cls new.
 aClass addMethod: aMethod.
 
 
+args := OrderedCollection new:1.
+args add: (TVar newvar: #x).
 expextedClsType := TCls class: (Int class).
 expextedClsType addMethod: (TMthd selector: aMethodSelector 
-											type: (OrderedCollection new:0) 
+											type: args
 											arrow: (TVar tv: (TCls class: (Int class)))).
+
+type := aClass typeOf: Dictionary new.
 self assert: (aClass typeOf: Dictionary new) equals: expextedClsType.
 
 "var := Var varname: #x."
@@ -33,7 +40,7 @@ self assert: (aClass typeOf: Dictionary new) equals: expextedClsType.
 
 { #category : #tests }
 ASNTests >> testAssToClassVar [
-"test a local variable can be assigned a type, which is returned by the method"
+"test a class variable can be assigned a type in a method, like a setter"
 | aMethod aClass expectedClsType aMethodSelector |
 
 "number: year"
@@ -50,7 +57,7 @@ aClass addVariable: (Var varname: #x).
 
 expectedClsType := TCls new.
 expectedClsType addMethod: (TMthd selector: aMethodSelector 
-											type: (OrderedCollection new) 
+											type: (OrderedCollection new:0) 
 											arrow: (TVar tv: (TCls class:self))).
 expectedClsType addVariable: (TVar tv: (TCls class: (Int class))).
 

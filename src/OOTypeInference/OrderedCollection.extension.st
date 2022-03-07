@@ -3,8 +3,8 @@ Extension { #name : #OrderedCollection }
 { #category : #'*OOTypeInference' }
 OrderedCollection >> isSameTypes: aCollection env: anEnviroment [
 	| result |
-	result := true.
-	self size = aCollection size ifTrue: [ 
+	result := self size = aCollection size.
+	result ifTrue: [ 
 		1 to: (self size) do: [ :i |
   			result := result and: ((self at: i) isSameType: (aCollection at: i) env: anEnviroment).
 		].

@@ -2,46 +2,68 @@ Class {
 	#name : #TArrow,
 	#superclass : #Typ,
 	#instVars : [
-		'typ1',
+		'argTypes',
 		'typ2'
 	],
 	#category : #'OOTypeInference-Types'
 }
 
 { #category : #'instance creation' }
-TArrow class >> type: aTyp1 arrow: aTyp2 [ 
-	^ self new type: aTyp1 arrow: aTyp2 
+TArrow class >> argTypes: argTypes arrow: aTyp2 [ 
+	^ self new argTypes: argTypes arrow: aTyp2 
+]
+
+{ #category : #'instance creation' }
+TArrow class >> type: argTypes arrow: aTyp2 [ 
+	^ self new type: argTypes arrow: aTyp2 
 ]
 
 { #category : #comparing }
 TArrow >> addTypeMap: aToyTyp to: aMap [
 	self class = aToyTyp class ifFalse: [ ^ aToyTyp addTypeMap: self to: aMap ].
-	^ (typ1 addTypeMap: aToyTyp typ1 to: aMap) and: [
+	^ (argTypes addTypeMap: aToyTyp argTypes to: aMap) and: [
 			typ2 addTypeMap: aToyTyp typ2 to: aMap
 		]
 ]
 
+{ #category : #accessing }
+TArrow >> argTypes [
+	^ argTypes
+]
+
+{ #category : #accessing }
+TArrow >> argTypes: someArgTypes arrow: aTyp2 [
+	argTypes := someArgTypes.
+	typ2 := aTyp2.
+
+]
+
 { #category : #printing }
 TArrow >> gen [
-	TArrow type: (typ1 gen) arrow: (typ2 gen).
+	"what does gen do?"
+	TArrow type: (argTypes collect: [:typ | typ gen]) arrow: (typ2 gen).
 	
 ]
 
 { #category : #comparing }
 TArrow >> isSameType: aToyTyp env: aEnv [
 	"check if the passed in type is a ToyTArrow"
-	aToyTyp isTArrow ifFalse: [ ^ aToyTyp isSameType: self env: aEnv "ask the nonTArrow aToyTyp if they are the same type."].
+	| aArgsList |
+	"ask the nonTArrow aToyTyp if they are the same type."
+	aToyTyp isTArrow ifFalse: [ ^ aToyTyp isSameType: self env: aEnv ].
 	
-	((typ1 isCollection) and: (aToyTyp typ1 isCollection)) ifTrue: [
-		(typ1 isSameTypes: (aToyTyp typ1) env: aEnv) ifTrue: [
-			^typ2 isSameType: aToyTyp typ2 env: aEnv.
-		] ifFalse: [^false.]
-	]
-	ifFalse: [
-	^ (typ1 addTypeMap: aToyTyp typ1 to: aEnv) and: [
-			typ2 isSameType: aToyTyp typ2 env: aEnv
-		]
-	] 
+	"verifty the args to the methods have the same types"
+	aArgsList := aToyTyp argTypes.
+	(((aArgsList isCollection)
+							   and: (argTypes size = aArgsList size))
+							   and: (argTypes isSameTypes: aArgsList env: aEnv))
+	ifTrue: [
+		"verify the return is the same type"
+		argTypes with: aArgsList do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aEnv.].
+		^typ2 isSameType: aToyTyp typ2 env: aEnv.
+	].
+
+^false
 ]
 
 { #category : #printing }
@@ -53,7 +75,7 @@ TArrow >> isTArrow [
 { #category : #printing }
 TArrow >> printNestedOn: aStream [
 	aStream nextPut: $(.
-	typ1 printOn: aStream.
+	argTypes do: [ :typ | typ printOn: aStream].
 	aStream nextPutAll: ' -> '.
 	typ2 printOn: aStream.
 	aStream nextPut: $).
@@ -62,16 +84,13 @@ TArrow >> printNestedOn: aStream [
 
 { #category : #printing }
 TArrow >> printOn: aStream [
-	typ1 printNestedOn: aStream.
+	aStream nextPutAll: ' [ '.
+	argTypes do: [ :typ | typ printOn: aStream. aStream nextPutAll: ' '.].
+	aStream nextPutAll: ' ] '.
 	aStream nextPutAll: ' -> '.
 	typ2 printNestedOn: aStream.
 
 	
-]
-
-{ #category : #accessing }
-TArrow >> typ1 [
-	^ typ1
 ]
 
 { #category : #accessing }
@@ -80,21 +99,21 @@ TArrow >> typ2 [
 ]
 
 { #category : #accessing }
-TArrow >> type: aTyp1 arrow: aTyp2 [
-	typ1 := aTyp1.
+TArrow >> type: someArgTypes arrow: aTyp2 [
+	argTypes := someArgTypes.
 	typ2 := aTyp2.
 
 ]
 
 { #category : #'type unification' }
-TArrow >> unify: aTyp with: aTyp1 arrow: aTyp2 [
-	aTyp1 unify: typ1.
+TArrow >> unify: aTyp with: someArgTypes arrow: aTyp2 [
+	someArgTypes unify: argTypes.
 	aTyp2 unify: typ2.
 
 ]
 
 { #category : #'type unification' }
 TArrow >> unifyWith: aTyp [
-	aTyp unify: self with: typ1 arrow: typ2.
+	aTyp unify: self with: argTypes arrow: typ2.
 
 ]
