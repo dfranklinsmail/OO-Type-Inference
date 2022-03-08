@@ -203,7 +203,7 @@ FunctionTITest >> testGen [
 	tvar6 := TVar newvar.
 	tarrow1 := TArrow type: tvar5 arrow: tvar6.
 	gen3 := tarrow1 gen.
-	self assert: (gen3 typ1 == tarrow1 typ1).
+	self assert: (gen3 argTypes == tarrow1 argTypes).
 	self assert: (gen3 typ2 == tarrow1 typ2).
 	
 	

@@ -15,15 +15,21 @@ TArrow class >> argTypes: argTypes arrow: aTyp2 [
 
 { #category : #'instance creation' }
 TArrow class >> type: argTypes arrow: aTyp2 [ 
-	^ self new type: argTypes arrow: aTyp2 
+
+	| temp |
+	argTypes isCollection 
+				ifTrue: [ temp := argTypes. ]
+				ifFalse: [ temp := OrderedCollection new.
+				  			  temp add: argTypes.].
+	^ self new type: temp arrow: aTyp2 
 ]
 
 { #category : #comparing }
 TArrow >> addTypeMap: aToyTyp to: aMap [
 	self class = aToyTyp class ifFalse: [ ^ aToyTyp addTypeMap: self to: aMap ].
-	^ (argTypes addTypeMap: aToyTyp argTypes to: aMap) and: [
-			typ2 addTypeMap: aToyTyp typ2 to: aMap
-		]
+	argTypes with: (aToyTyp argTypes) do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aMap.].
+	typ2 addTypeMap: aToyTyp typ2 to: aMap.
+		
 ]
 
 { #category : #accessing }
