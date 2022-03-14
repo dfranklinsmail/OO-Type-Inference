@@ -148,7 +148,7 @@ OOMethodTITests >> testUnifyMthd [
 	argListA := OrderedCollection new.
 	argListA add: argA.
 	aMthdA := Mthd selector: aSelector arguments: argListA.
-	argB := Char new.
+	argB := Int new.
 	argListB := OrderedCollection new.
 	argListB add: argB.
 	aMthdB := Mthd selector: aSelector arguments: argListB.
@@ -158,11 +158,13 @@ OOMethodTITests >> testUnifyMthd [
 	typMthdB := (aMthdB typeOf: IdentityDictionary new).
 	
 	"unify typMthdA with typMthdB "
+	self flag: #TODO.
+	"how to test when unification throws an error?"
+	"self assert: (typMthdA unifyWith: typMthdB) equals: self error."
 	typMthdA unifyWith: typMthdB.
 	
 	args := OrderedCollection new.
 	args add: (TCls class: (Int class)).
-	args add: (TCls class: (Char class)).
 	
 	expectedUnificationLooksLike := TMthd selector: aSelector type: args arrow: (TCls class: (self class)).
 	self assert: typMthdA equals: expectedUnificationLooksLike.

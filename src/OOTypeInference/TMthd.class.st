@@ -52,5 +52,8 @@ TMthd >> selector: aSelector type: aTyp1 arrow: aTyp2 [
 TMthd >> unifyWith: aTMthd [
 	aTMthd isTMthd ifFalse: [ ^ Error new. ].
 	selector = aTMthd selector ifFalse: [ ^Error new. ].
-	
+	argTypes size = aTMthd argTypes size ifFalse: [ ^ Error new. ].
+	argTypes with: aTMthd argTypes do: [ :argA :argB | argA unifyWith: argB ].
+	resultTyp unifyWith: aTMthd resultTyp. 
+	^self.
 ]

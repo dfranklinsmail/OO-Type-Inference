@@ -24,5 +24,13 @@ Typ >> unify: aTyp with: unused arrow: unused2 [
 
 { #category : #'type unification' }
 Typ >> unifyWith: aTyp [
+	self = aTyp ifTrue: [ ^true. ].
+	aTyp isTCls ifTrue: [  
+		"does this work? what if methods aren't in the same order, what is order, 
+		should methods be sorted by selector"
+		self methods with: aTyp methods do: [ :mthdA :mthdB | mthdA unifyWith: mthdB ].
+		self variables with: aTyp variables do:  [ :vrA :vrB | vrA unifyWith: vrB ].
+		^true.
+	].
 	^ self unifyFail: aTyp
 ]

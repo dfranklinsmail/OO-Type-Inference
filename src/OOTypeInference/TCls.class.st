@@ -93,3 +93,13 @@ TCls >> isSameVariables: aTType env: anEnv [
 TCls >> isTCls [
 	^ true.
 ]
+
+{ #category : #'as yet unclassified' }
+TCls >> methods [
+	^ methods.
+]
+
+{ #category : #'as yet unclassified' }
+TCls >> variables [
+	^variables
+]
