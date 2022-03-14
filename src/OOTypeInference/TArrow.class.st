@@ -64,8 +64,9 @@ TArrow >> isSameType: aToyTyp env: aEnv [
 							   and: (argTypes size = aArgsList size))
 							   and: (argTypes isSameTypes: aArgsList env: aEnv))
 	ifTrue: [
-		"verify the return is the same type"
+		"add the arguments to the enrvironment"
 		argTypes with: aArgsList do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aEnv.].
+		"verify the return type typ2 and aToyTyp typ2 has the same type"
 		^typ2 isSameType: aToyTyp typ2 env: aEnv.
 	].
 

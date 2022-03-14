@@ -20,6 +20,13 @@ TCls >> addMethod: aTMthd [
 ]
 
 { #category : #'as yet unclassified' }
+TCls >> addTypeMap: aTyp to: aMap [
+	aTyp isClass 
+		ifTrue: [ aMap at: aTyp ifPresent: [:aCls | ^ self unifyWith: aCls ] ifAbsentPut: [ aTyp ]].
+	^true
+]
+
+{ #category : #'as yet unclassified' }
 TCls >> addVariable: aTVar [
 	variables add: aTVar.
 ]
