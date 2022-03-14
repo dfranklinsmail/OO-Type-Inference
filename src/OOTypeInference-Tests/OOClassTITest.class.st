@@ -166,7 +166,7 @@ OOClassTITest >> testSimpleTypeWithVariableAndType [
 	aCls addMethod: aMethod.
 	
 	anotherTCls := TCls new.
-	anotherTCls addVariable: ((Int new) typeOf: IdentityDictionary new).
+	anotherTCls addVariable: (TVar tv:((Int new) typeOf: IdentityDictionary new)).
 	anotherTCls addMethod: (TMthd selector: aSelector type: (OrderedCollection new) arrow: (TCls class: (Int new))).
 	self assert: (aCls typeOf: IdentityDictionary new) equals: anotherTCls.
 	
