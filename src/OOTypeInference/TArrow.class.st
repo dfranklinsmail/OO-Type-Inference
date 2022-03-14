@@ -28,7 +28,7 @@ TArrow class >> type: argTypes arrow: aTyp2 [
 TArrow >> addTypeMap: aToyTyp to: aMap [
 	self class = aToyTyp class ifFalse: [ ^ aToyTyp addTypeMap: self to: aMap ].
 	argTypes with: (aToyTyp argTypes) do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aMap.].
-	typ2 addTypeMap: aToyTyp typ2 to: aMap.
+	typ2 addTypeMap: aToyTyp resultTyp to: aMap.
 		
 ]
 
@@ -67,7 +67,7 @@ TArrow >> isSameType: aToyTyp env: aEnv [
 		"add the arguments to the enrvironment"
 		argTypes with: aArgsList do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aEnv.].
 		"verify the return type typ2 and aToyTyp typ2 has the same type"
-		^typ2 isSameType: aToyTyp typ2 env: aEnv.
+		^typ2 isSameType: aToyTyp resultTyp env: aEnv.
 	].
 
 ^false
@@ -101,7 +101,7 @@ TArrow >> printOn: aStream [
 ]
 
 { #category : #accessing }
-TArrow >> typ2 [
+TArrow >> resultTyp [
 	^ typ2
 ]
 

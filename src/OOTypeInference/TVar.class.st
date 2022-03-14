@@ -53,6 +53,7 @@ TVar >> isTVar [
 
 { #category : #'type unification' }
 TVar >> occurs: aTyp [
+	(aTyp isCollection) ifTrue: [ ^aTyp anySatisfy: [ :typ | self occurs: typ ] ].
 	aTyp isTVar ifTrue: [ (tv == aTyp tv) ifTrue: [ ^ true ]]."fail! throw exception"
 	(tv isUnbound) & (aTyp isTVar) ifTrue: [ 
 				(aTyp tv isUnbound) ifTrue: [ (tv level > aTyp tv level) ifTrue: [ 
@@ -60,7 +61,7 @@ TVar >> occurs: aTyp [
 				]].
 			^ false. 
 	].
-	aTyp isTArrow ifTrue: [ ^ (self occurs: aTyp typ1) & (self occurs: aTyp typ2) ].
+	aTyp isTArrow ifTrue: [ ^ aTyp occurs: self].
 	aTyp isLink ifTrue: [ ^ self occurs: (aTyp link)].
 	^false.
 ]

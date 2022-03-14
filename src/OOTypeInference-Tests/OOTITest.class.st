@@ -118,12 +118,13 @@ OOTITest >> testOccurs1 [
 	self deny: (tVarLower2 occurs: tVarHigher2).
 	self assert: (tVarLower2 tv level == tVarHigher2 tv level).
 	
+	"TODO what am I trying to do here?"
 	tArrow := TArrow type: tVar1 arrow: tVar2.
-	self deny: (tVar1 occurs: tArrow).
-	self deny: (tVar2 occurs: tArrow).
+	self assert: (tVar1 occurs: tArrow argTypes).
+	self assert: (tVar2 occurs: tArrow resultTyp).
 	tVar3 := TVar newvar: 100.
 	tVar3 occurs: tArrow.
-	self assert: ((tVar3 tv level) == 0).
+	self assert: ((tVar3 tv level) == 100).
 	self deny: (tArrow occurs: tVar1).  "not sure about this one"
 	
 	tLink := TVLink link: tVar1.
