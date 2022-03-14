@@ -18,6 +18,7 @@ Asn >> typeOf: env [
 	| typeOfExp |
 	typeOfExp := expression typeOf: env.
 	env at: varname put: (TVar tv: typeOfExp). "does this make sense? or should I call class?"
+															"is the nesting of the type into a TVar necessary?"
 	^TVar tv: typeOfExp.
 
 
