@@ -47,8 +47,8 @@ aMethod addStatement: (Asn varname: #x expression: (Int new)).
 aMethod addStatement: (Rtrn exp: (Var varname: #x)).
 
 args := OrderedCollection new.
-args add: (TCls class: (Int class)).
-expectedType := TMthd selector: aSelector type: args  arrow: (TCls class: (Int class)).
+args add: (TCls class: Int).
+expectedType := TMthd selector: aSelector type: args  arrow: (TCls class: Int).
 
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 ]
