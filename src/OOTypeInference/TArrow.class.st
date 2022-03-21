@@ -60,10 +60,10 @@ TArrow >> isSameType: aToyTyp env: aEnv [
 	
 	"verifty the args to the methods have the same types"
 	aArgsList := aToyTyp argTypes.
-	(((aArgsList isCollection)
+	((aArgsList isCollection)
 							   and: (argTypes size = aArgsList size))
-							   and: (argTypes isSameTypes: aArgsList env: aEnv))
 	ifTrue: [
+		argTypes with: aArgsList do: [:argA :argB | argA isSameType: argB env: aEnv].
 		"add the arguments to the enrvironment"
 		argTypes with: aArgsList do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aEnv.].
 		"verify the return type typ2 and aToyTyp typ2 has the same type"
