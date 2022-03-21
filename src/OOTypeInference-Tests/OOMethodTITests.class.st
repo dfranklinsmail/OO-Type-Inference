@@ -159,6 +159,7 @@ OOMethodTITests >> testUnifyMthd [
 	
 	"unify typMthdA with typMthdB "
 	self flag: #TODO.
+	
 	"how to test when unification throws an error?"
 	"self assert: (typMthdA unifyWith: typMthdB) equals: self error."
 	typMthdA unifyWith: typMthdB.
