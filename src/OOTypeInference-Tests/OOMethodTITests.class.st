@@ -5,6 +5,22 @@ Class {
 }
 
 { #category : #tests }
+OOMethodTITests >> testArgTypesInMethodDontMatch [
+
+| aMethod expectedType |
+aMethod := Mthd new.
+aMethod selector: #number.
+aMethod addStatement: (Rtrn exp: (Int new)).
+aMethod addArgument: Int new.
+
+expectedType := TArrow type: { TCls class: Char new } arrow: (TCls class: (Int class)).
+self assert: (aMethod typeOf: { } )equals: expectedType.
+
+
+
+]
+
+{ #category : #tests }
 OOMethodTITests >> testAssignmentTypeOf [
 
 | x expectedType |

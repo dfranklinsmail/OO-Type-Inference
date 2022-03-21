@@ -14,5 +14,5 @@ Int >> printOn: aStream [
 
 { #category : #accessing }
 Int >> typeOf: environment [
-	^ TCls class: (self class).
+	^ TCls class: self.
 ]

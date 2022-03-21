@@ -70,12 +70,14 @@ TCls >> isSameMethods: aTType env: anEnv [
 ]
 
 { #category : #'as yet unclassified' }
-TCls >> isSameType: aTType env: anEnv [
-	aTType isTCls ifFalse: [^ false]. 
-	(self = aTType) ifTrue: [ ^ true ].
+TCls >> isSameType: aTTyp env: anEnv [
+	aTTyp isTCls ifFalse: [^ false]. 
+	(self = aTTyp) ifTrue: [ ^ true ].
 	"need to check selectors".
 	
-	^(self isSameMethods: aTType env: anEnv) and: (self isSameVariables: aTType env: anEnv).
+	^((self className = aTTyp className) and: 
+		(self isSameMethods: aTTyp env: anEnv)) 
+		and: (self isSameVariables: aTTyp env: anEnv).
 
 ]
 

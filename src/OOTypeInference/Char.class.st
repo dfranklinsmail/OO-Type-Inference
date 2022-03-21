@@ -9,5 +9,5 @@ Class {
 
 { #category : #accessing }
 Char >> typeOf: environment [
-	^TObj from: Char class.
+	^TCls class: self.
 ]
