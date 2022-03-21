@@ -5,7 +5,7 @@ Class {
 		'leftExp',
 		'rightExp'
 	],
-	#category : #'OOTypeInference-Language'
+	#category : #PorTypeInference
 }
 
 { #category : #'instance creation' }

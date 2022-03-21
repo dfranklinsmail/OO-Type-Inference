@@ -1,7 +1,7 @@
 Class {
 	#name : #PorTITest,
 	#superclass : #TITest,
-	#category : #'OOTypeInference-Tests'
+	#category : #'PorTypeInference-Tests'
 }
 
 { #category : #tests }

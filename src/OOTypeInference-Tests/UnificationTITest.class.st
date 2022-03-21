@@ -11,5 +11,5 @@ UnificationTITest >> testBaseTypeUnificaiton [
 	c1 := Char new.
 	c2 := Char new.
 	
-	self assert: c1 equals c2.
+	self assert: c1 equals: c2.
 ]
