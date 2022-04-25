@@ -37,6 +37,11 @@ TCls >> class: aClassName [
 ]
 
 { #category : #'as yet unclassified' }
+TCls >> clsName [
+	^ className
+]
+
+{ #category : #'as yet unclassified' }
 TCls >> hasMethod: aTMthd env: anEnv [.
 	"loop through methods to see if any of them has the same type as the given aTMthd, 
 	if so return true, otherwise false"
@@ -75,7 +80,7 @@ TCls >> isSameType: aTTyp env: anEnv [
 	(self = aTTyp) ifTrue: [ ^ true ].
 	"need to check selectors".
 	
-	^((self className = aTTyp className) and: 
+	^((self clsName = aTTyp clsName) and: 
 		(self isSameMethods: aTTyp env: anEnv)) 
 		and: (self isSameVariables: aTTyp env: anEnv).
 

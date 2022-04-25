@@ -53,25 +53,26 @@ TArrow >> gen [
 
 { #category : #comparing }
 TArrow >> isSameType: aToyTyp env: aEnv [
+
 	"check if the passed in type is a ToyTArrow"
+
 	| aArgsList |
 	"ask the nonTArrow aToyTyp if they are the same type."
 	aToyTyp isTArrow ifFalse: [ ^ aToyTyp isSameType: self env: aEnv ].
-	
+
 	"verifty the args to the methods have the same types"
 	aArgsList := aToyTyp argTypes.
-	((aArgsList isCollection)
-							   and: (argTypes size = aArgsList size))
-	ifTrue: [
-		
-		argTypes with: aArgsList do: [:argA :argB | (argA isSameType: argB env: aEnv) ifFalse: [self error]. ].
+	(aArgsList isCollection and: argTypes size = aArgsList size) ifTrue: [ 
+		argTypes with: aArgsList do: [ :argA :argB |
+			(argA isSameType: argB env: aEnv) ifFalse: [ TypeMismatch signal: 'the types are not the same'] ].
 		"add the arguments to the enrvironment"
-		argTypes with: aArgsList do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aEnv.].
+		argTypes
+			with: aArgsList
+			do: [ :argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aEnv ].
 		"verify the return type typ2 and aToyTyp typ2 has the same type"
-		^resultTyp isSameType: aToyTyp resultTyp env: aEnv.
-	].
+		^ resultTyp isSameType: aToyTyp resultTyp env: aEnv ].
 
-^false
+	^ false
 ]
 
 { #category : #printing }
