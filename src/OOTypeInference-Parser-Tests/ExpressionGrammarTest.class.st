@@ -17,6 +17,12 @@ ExpressionGrammarTest >> testASN [
 ]
 
 { #category : #accessing }
+ExpressionGrammarTest >> testASN_cannotASN_to_ASN [
+
+	self parse: 'y = x = 100 + 5' rule: #asn
+]
+
+{ #category : #accessing }
 ExpressionGrammarTest >> testAdd [
 
 	self parse: '123+77' rule: #add
