@@ -16,7 +16,11 @@ Class {
 		'selector',
 		'snd',
 		'arg',
-		'new'
+		'new',
+		'method',
+		'body',
+		'rtn',
+		'args'
 	],
 	#category : #'OOTypeInference-Parser'
 }
@@ -34,9 +38,21 @@ ExpressionGrammar >> arg [
 ]
 
 { #category : #grammar }
+ExpressionGrammar >> args [
+
+	^ $| asParser trim , identifier star, $| asParser trim
+]
+
+{ #category : #grammar }
 ExpressionGrammar >> asn [
 
-	^ identifier , $= asParser trim , exp
+	^ identifier, $= asParser trim, exp
+]
+
+{ #category : #grammar }
+ExpressionGrammar >> body [
+
+	^ exp / exp, body / '' asParser
 ]
 
 { #category : #grammar }
@@ -48,13 +64,19 @@ ExpressionGrammar >> boolean [
 { #category : #grammar }
 ExpressionGrammar >> exp [
 
-	^ new / identifier / snd / add
+	^ new / identifier / snd / add / rtn
 ]
 
 { #category : #grammar }
 ExpressionGrammar >> identifier [
 
 	^ #letter asParser plus flatten trim
+]
+
+{ #category : #grammar }
+ExpressionGrammar >> method [
+
+	^ identifier , args , body / identifier , body
 ]
 
 { #category : #grammar }
@@ -90,6 +112,12 @@ ExpressionGrammar >> prim [
 ExpressionGrammar >> prod [
 
 	^ mul / prim
+]
+
+{ #category : #grammar }
+ExpressionGrammar >> rtn [
+
+	^ $^ asParser trim , exp
 ]
 
 { #category : #grammar }

@@ -10,6 +10,12 @@ ExpressionEvaluator >> add [
 ]
 
 { #category : #accessing }
+ExpressionEvaluator >> args [
+
+	^ super args ==> [ :nodes | nodes second ]
+]
+
+{ #category : #accessing }
 ExpressionEvaluator >> asn [
 
 	"What should an asn evaluate to?"
@@ -33,4 +39,10 @@ ExpressionEvaluator >> mul [
 ExpressionEvaluator >> parens [
 
 	^ super parens ==> [ :nodes | nodes second ]
+]
+
+{ #category : #accessing }
+ExpressionEvaluator >> rtn [
+
+	^ super rtn ==> [ :nodes | nodes last ]
 ]

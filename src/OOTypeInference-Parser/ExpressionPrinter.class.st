@@ -27,3 +27,9 @@ ExpressionPrinter >> parens [
 
 	^ super parens ==> [ :nodes | '(', nodes second, ')' ]
 ]
+
+{ #category : #accessing }
+ExpressionPrinter >> rtn [
+
+	^ super rtn ==> [ :nodes | '^ ' , nodes second ]
+]

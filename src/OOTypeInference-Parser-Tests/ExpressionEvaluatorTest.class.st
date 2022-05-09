@@ -24,8 +24,22 @@ self assert: result equals:200
 ]
 
 { #category : #accessing }
+ExpressionEvaluatorTest >> testArgs [
+
+	super testArgs.
+	self assert: result equals: #('x' 'y' 'z')
+]
+
+{ #category : #accessing }
 ExpressionEvaluatorTest >> testNumber [
 
 	super testNumber.
 	self assert: result equals: 123
+]
+
+{ #category : #accessing }
+ExpressionEvaluatorTest >> testRtn [
+
+	super testRtn.
+	self assert: result equals: #self
 ]

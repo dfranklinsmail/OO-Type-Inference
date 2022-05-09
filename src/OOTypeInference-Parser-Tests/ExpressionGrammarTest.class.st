@@ -29,6 +29,12 @@ ExpressionGrammarTest >> testAdd [
 ]
 
 { #category : #accessing }
+ExpressionGrammarTest >> testArgs [
+
+	self parse: '| x y z |' rule: #args
+]
+
+{ #category : #accessing }
 ExpressionGrammarTest >> testBoolean [
 
 	self parse: 'true' rule: #boolean
@@ -56,6 +62,12 @@ ExpressionGrammarTest >> testNew [
 ExpressionGrammarTest >> testNumber [
 
 	self parse: '123' rule: #number
+]
+
+{ #category : #accessing }
+ExpressionGrammarTest >> testRtn [
+
+	self parse: '^ self' rule: #rtn
 ]
 
 { #category : #accessing }
