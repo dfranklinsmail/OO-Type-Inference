@@ -20,7 +20,8 @@ Class {
 		'method',
 		'body',
 		'rtn',
-		'args'
+		'args',
+		'period'
 	],
 	#category : #'OOTypeInference-Parser'
 }
@@ -52,7 +53,8 @@ ExpressionGrammar >> asn [
 { #category : #grammar }
 ExpressionGrammar >> body [
 
-	^ exp / exp, body / '' asParser
+	^ exp wrapped , period star , body/
+	   exp wrapped , period star / '' asParser
 ]
 
 { #category : #grammar }
@@ -64,7 +66,7 @@ ExpressionGrammar >> boolean [
 { #category : #grammar }
 ExpressionGrammar >> exp [
 
-	^ new / identifier / snd / add / rtn
+	^ new / identifier / snd / add / rtn / asn
 ]
 
 { #category : #grammar }
@@ -100,6 +102,12 @@ ExpressionGrammar >> number [
 ExpressionGrammar >> parens [ 
 
 ^ $( asParser trim, term, $) asParser trim
+]
+
+{ #category : #grammar }
+ExpressionGrammar >> period [
+
+	^ $. asParser
 ]
 
 { #category : #grammar }

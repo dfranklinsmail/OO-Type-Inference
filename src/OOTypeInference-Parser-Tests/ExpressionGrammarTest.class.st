@@ -35,6 +35,12 @@ ExpressionGrammarTest >> testArgs [
 ]
 
 { #category : #accessing }
+ExpressionGrammarTest >> testBodyJustSnd [
+
+	self parse: 'x new. ^x.' rule: #body
+]
+
+{ #category : #accessing }
 ExpressionGrammarTest >> testBoolean [
 
 	self parse: 'true' rule: #boolean

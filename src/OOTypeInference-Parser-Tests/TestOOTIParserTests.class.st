@@ -29,8 +29,8 @@ TestOOTIParserTests >> testParseSampleClassMethodReturnSelf [
 
 	startMethodNodes := self parse: startMethod sourceCode rule: #method.
 	self assert: (startMethodNodes at: 1) equals: #startWithNoArgsOneExp.
-	self assert: (((startMethodNodes at: 2) at: 1) at: 1) equals: $^.
-	self assert: (((startMethodNodes at: 2) at: 1) at: 2) equals: #self
+	self assert: ((((startMethodNodes at: 2) at: 1) at: 1) at: 1) equals: $^.
+	self assert: ((((startMethodNodes at: 2) at: 1)at: 1)  at: 2) equals: #self
 ]
 
 { #category : #tests }
@@ -40,8 +40,8 @@ TestOOTIParserTests >> testParseSampleClassMethodWithLocalVars [
 	startMethod := (ParseSampleClass >> #startWithLocalVars) ast.
 
 	startMethodNodes := self parse: startMethod sourceCode rule: #method.
-	self assert: (startMethodNodes at: 1) equals: #startWithoutBody.
-	self assert: (startMethodNodes at: 2) equals: ''
+	self assert: ((startMethodNodes at: 1) at:1) equals: #startWithLocalVars.
+	self assert: (((startMethodNodes at:1) at: 2) at: 2) equals: #('x' 'y' 'z')
 ]
 
 { #category : #tests }

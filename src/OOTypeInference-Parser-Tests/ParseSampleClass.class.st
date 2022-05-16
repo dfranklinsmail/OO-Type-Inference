@@ -11,11 +11,9 @@ ParseSampleClass >> start [
 
 { #category : #accessing }
 ParseSampleClass >> startWithLocalVars [
-| x y z |
-	x := 3.
-	y := 4.
-	z := 8.
-	^ x + y + z.
+
+	| x y z |
+
 ]
 
 { #category : #accessing }
