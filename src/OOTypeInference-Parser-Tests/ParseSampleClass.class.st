@@ -17,6 +17,16 @@ ParseSampleClass >> startWithLocalVars [
 ]
 
 { #category : #accessing }
+ParseSampleClass >> startWithLocalVarsAndExpressions [
+
+	| x y z |
+	x := 3.
+	y := 4.
+	z := 5.
+	^x+y+z.
+]
+
+{ #category : #accessing }
 ParseSampleClass >> startWithNoArgsOneExp [
 
 	^ self

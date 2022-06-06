@@ -2,14 +2,43 @@ Class {
 	#name : #TMthd,
 	#superclass : #TArrow,
 	#instVars : [
-		'selector'
+		'selector',
+		'returnType'
 	],
 	#category : #'OOTypeInference-Types'
 }
 
 { #category : #'instance creation' }
 TMthd class >> selector: selector type: aTyp1 arrow: aTyp2 [
-	^ self new selector: selector; type: aTyp1 arrow: aTyp2.
+
+	^ self new
+		  selector: selector;
+		  returnType: aTyp2;
+		type: aTyp1 arrow: aTyp2
+]
+
+{ #category : #accessing }
+TMthd >> argumentTypes [
+
+	^ argTypes
+]
+
+{ #category : #accessing }
+TMthd >> equals: aType [
+
+	aType isTMthd ifFalse: [ ^ false ].
+
+	^ aType returnType equals: returnType
+]
+
+{ #category : #accessing }
+TMthd >> isSameType: aTTyp [
+
+	"check if the passed in type is a ToyTArrow"
+	aTTyp isTMthd ifFalse: [ 
+		^ aTTyp isSameType: self "ask the nonTArrow aToyTyp if they are the same type." ].
+
+	^ selector = aTTyp selector and: (super isSameType: aTTyp)
 ]
 
 { #category : #accessing }
@@ -28,8 +57,20 @@ TMthd >> isTMthd [
 
 { #category : #accessing }
 TMthd >> printOn: aStream [
-	aStream nextPutAll: selector, ' FOR: '.
+	aStream nextPutAll: selector , ' FOR: '.
 	super printOn: aStream
+]
+
+{ #category : #accessing }
+TMthd >> returnType [
+
+	^ returnType
+]
+
+{ #category : #accessing }
+TMthd >> returnType: aType [
+
+	returnType := aType.
 ]
 
 { #category : #accessing }

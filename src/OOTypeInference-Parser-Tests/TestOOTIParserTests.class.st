@@ -48,9 +48,9 @@ TestOOTIParserTests >> testParseSampleClassMethodWithLocalVars [
 TestOOTIParserTests >> testParseSampleClassMethodWithoutBody [
 
 	| startMethod startMethodNodes |
-	startMethod := (ParseSampleClass >> #startWithoutBody) ast.
+	startMethod := (ParseSampleClass >> #startWithLocalVarsAndExpressions) ast.
 
 	startMethodNodes := self parse: startMethod sourceCode rule: #method.
-	self assert: (startMethodNodes at: 1) equals: #startWithoutBody.
+	self assert: (startMethodNodes at: 1) equals: #startWithLocalVarsAndExpressions.
 	self assert: (startMethodNodes at: 2) equals: ''
 ]

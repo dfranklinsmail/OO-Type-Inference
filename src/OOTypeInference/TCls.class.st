@@ -42,6 +42,12 @@ TCls >> clsName [
 ]
 
 { #category : #'as yet unclassified' }
+TCls >> equals: aType [
+	aType isTCls ifFalse: [ ^ false ].
+	^ className == aType clsName
+]
+
+{ #category : #'as yet unclassified' }
 TCls >> hasMethod: aTMthd env: anEnv [.
 	"loop through methods to see if any of them has the same type as the given aTMthd, 
 	if so return true, otherwise false"
@@ -64,6 +70,18 @@ TCls >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+TCls >> isSameMethods: aTType [
+
+	| hasAllMethods |
+	hasAllMethods := true.
+	methods do: [ :aMthd | 
+		hasAllMethods := hasAllMethods
+		                 & (aTType hasMethod: aMthd) ].
+
+	^ hasAllMethods
+]
+
+{ #category : #'as yet unclassified' }
 TCls >> isSameMethods: aTType env: anEnv [
 	| hasAllMethods |
 	hasAllMethods := true.
@@ -72,6 +90,18 @@ TCls >> isSameMethods: aTType env: anEnv [
 	
 	^hasAllMethods.
 
+]
+
+{ #category : #'as yet unclassified' }
+TCls >> isSameType: aTTyp [
+
+	aTTyp isTCls ifFalse: [ ^ false ].
+	self = aTTyp ifTrue: [ ^ true ].
+	"need to check selectors"
+
+	^ (self clsName = aTTyp clsName and:
+		   (self isSameMethods: aTTyp)) and:
+		  (self isSameVariables: aTTyp)
 ]
 
 { #category : #'as yet unclassified' }
@@ -84,6 +114,17 @@ TCls >> isSameType: aTTyp env: anEnv [
 		(self isSameMethods: aTTyp env: anEnv)) 
 		and: (self isSameVariables: aTTyp env: anEnv).
 
+]
+
+{ #category : #'as yet unclassified' }
+TCls >> isSameVariables: aTType [
+
+	| isSame |
+	isSame := true.
+	variables do: [ :aVar | 
+		isSame := isSame & (aTType hasVariable: aVar) ].
+
+	^ isSame
 ]
 
 { #category : #'as yet unclassified' }

@@ -13,6 +13,21 @@ TObj class >> from: aTCls [
 ]
 
 { #category : #comparing }
+TObj >> equals: aType [
+
+	aType isTObj ifFalse: [ ^ false ].
+	^tv equals: aType tv
+]
+
+{ #category : #comparing }
+TObj >> isSameType: TType [
+
+	TType isTObj ifFalse: [ ^ false ].
+	self = TType ifTrue: [ ^ true ].
+	^ tv isSameType: TType tv
+]
+
+{ #category : #comparing }
 TObj >> isSameType: TType env: aMap [
 	TType isTObj ifFalse: [ ^false ].
 	self = TType ifTrue: [ ^true ].

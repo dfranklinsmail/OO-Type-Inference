@@ -41,6 +41,12 @@ ExpressionGrammarTest >> testBodyJustSnd [
 ]
 
 { #category : #accessing }
+ExpressionGrammarTest >> testBodyWithAsn [
+
+	self parse: 'x := 3. y := 4. z := 5. ^ x + y + z' rule: #body
+]
+
+{ #category : #accessing }
 ExpressionGrammarTest >> testBoolean [
 
 	self parse: 'true' rule: #boolean
