@@ -64,11 +64,11 @@ TArrow >> isSameType: aToyTyp [
 	aArgsList := aToyTyp argTypes.
 	(aArgsList isCollection and: argTypes size = aArgsList size) ifTrue: [ 
 		argTypes with: aArgsList do: [ :argA :argB | 
-			(argA isSameType: argB ) ifFalse: [ 
+			(argA isSameType: argB) ifFalse: [ 
 				TypeMismatch signal: 'the types are not the same' ] ].
-		
+
 		"verify the return type typ2 and aToyTyp typ2 has the same type"
-		^ resultTyp isSameType: aToyTyp resultTyp].
+		^ resultTyp isSameType: aToyTyp resultTyp ].
 
 	^ false
 ]

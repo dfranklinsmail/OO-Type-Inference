@@ -11,6 +11,15 @@ SampleTypeClass >> simpleMethod [
 
 { #category : #'test mock' }
 SampleTypeClass >> simpleMethodCall [
+	"This test will introduce the messageNode, variableNode for self, and the selector."
+	"How to take a messageNode and type the underlying method call."
+	^ self simpleMethod.
+]
 
-	^ self simpleMethod
+{ #category : #'test mock' }
+SampleTypeClass >> simpleMethodCallWithLocalAssignment [
+
+| x |
+x := self.
+	^ x simpleMethod
 ]
