@@ -4,7 +4,7 @@ Class {
 	#category : #'OOTypeInference-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 TIVisitorTest >> testTypeSimpleMethod [
 
 	| typer aTMthd args |
@@ -23,10 +23,10 @@ TIVisitorTest >> testTypeSimpleMethod [
 		equals: true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethod [
 
-	| typer aTMthd args |
+	| typer aTMthd args methodType |
 	typer := TITypeInferencer new.
 
 	args := OrderedCollection new.
@@ -36,9 +36,13 @@ TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethod [
 		          type: args
 		          arrow: (TObj from: (TCls class: SmallInteger)).
 
+	"set the initial class"
+	typer currentClass: (TCls class: SampleTypeClass).
+	"type the mehtod and assert its equal to what I am expecting"
+	methodType := (typer typeMethod: SampleTypeClass >> #simpleMethodCall).
 	self
 		assert:
-			((typer typeMethod: SampleTypeClass >> #simpleMethodCall) isSameType:
-				 aTMthd)
+			(methodType
+				 isSameType: aTMthd)
 		equals: true
 ]
