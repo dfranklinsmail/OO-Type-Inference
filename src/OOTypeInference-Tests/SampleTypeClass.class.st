@@ -23,3 +23,9 @@ SampleTypeClass >> simpleMethodCallWithLocalAssignment [
 x := self.
 	^ x simpleMethod
 ]
+
+{ #category : #'test mock' }
+SampleTypeClass >> simpleMethodWithArgument: argument [
+
+	^ argument
+]

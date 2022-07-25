@@ -6,7 +6,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'enviroment',
-		'currentClass'
+		'currentClass',
+		'instanceVariables'
 	],
 	#category : #'OOTypeInference-Typer'
 }
@@ -32,25 +33,58 @@ TITypeInferencer >> initialize [
 { #category : #transform }
 TITypeInferencer >> typeMethod: aCompiledMethod [
 
-
 	"Recursively traverse the given method and all methods contained 
 until the classes and methods found are typed."
 
 	| inferedType |
 	^ enviroment
 		  at: aCompiledMethod
+		  ifPresent: [ :methodType "if the method has already been typed do we need to type again? Have things changed, class instance variables? " | 
+			  ^ methodType ]
 		  ifAbsentPut: [ "contains needs to be interesting, ""If you run a smalltalk program and 'save exit the ide/vm,
 would you resume execution from where you left off?. Can you
 fully restore an iimage "
+			  Transcript
+				  show: 'typing method ';
+				  show: aCompiledMethod;
+				  cr.
 			  inferedType := self visit: aCompiledMethod ast.
 			  enviroment at: aCompiledMethod put: inferedType.
 			  ^ inferedType ]
+]
+
+{ #category : #transform }
+TITypeInferencer >> typeMethod: aCompiledMethod with: arguments [
+
+	"Recursively traverse the given method and all methods contained 
+until the classes and methods found are typed."
+
+	| oldInstanceVariables methodType |
+	oldInstanceVariables := instanceVariables.
+	instanceVariables := Dictionary new.
+	instanceVariables
+		at: #self
+		put: (TCls class: aCompiledMethod realClass).
+	arguments
+		with: aCompiledMethod argumentNames
+		do: [ :type :name | instanceVariables at: name put: type ].
+
+	methodType := self typeMethod: aCompiledMethod.
+
+	instanceVariables := oldInstanceVariables.
+	^ methodType
 ]
 
 { #category : #visiting }
 TITypeInferencer >> visit: anRBNode [
 ^ anRBNode acceptVisitor: self.
 
+]
+
+{ #category : #visiting }
+TITypeInferencer >> visitArgumentVariableNode: anRBVariableNode [
+"return the arguments type"
+^ instanceVariables at: (anRBVariableNode name).
 ]
 
 { #category : #visiting }
@@ -88,12 +122,14 @@ TITypeInferencer >> visitMessageNode: anRBMessageNode [
 TITypeInferencer >> visitMethodNode: anRBMethodNode [
 
 	| args constraints |
-	args := OrderedCollection new.
-	args add: (TCls class: Int).
+	args := anRBMethodNode allArgumentVariables collect: [:arg | instanceVariables at: arg."look at instanceVariables to get arg type""visit: arg"].
 	constraints := anRBMethodNode statements collect: [ :statement | 
 		               self visit: statement ].
 
-	^ TMthd selector: anRBMethodNode selector type: args arrow: (constraints at: 1)
+	^ TMthd
+		  selector: anRBMethodNode selector
+		  type: args
+		  arrow: (constraints at: 1)
 ]
 
 { #category : #visiting }
