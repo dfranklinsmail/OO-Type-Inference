@@ -27,7 +27,6 @@ TMthd >> argumentTypes [
 TMthd >> equals: aType [
 
 	aType isTMthd ifFalse: [ ^ false ].
-
 	^ aType returnType equals: returnType
 ]
 

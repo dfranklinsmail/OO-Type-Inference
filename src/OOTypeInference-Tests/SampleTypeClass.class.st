@@ -29,3 +29,15 @@ SampleTypeClass >> simpleMethodWithArgument: argument [
 
 	^ argument
 ]
+
+{ #category : #'test mock' }
+SampleTypeClass >> simpleMethodWithClassSideCall [
+
+	^ SampleTypeClass2 make
+]
+
+{ #category : #'test mock' }
+SampleTypeClass >> simpleMethodWithNew [
+
+	^ SampleTypeClass2 new
+]

@@ -18,6 +18,23 @@ TITypeInferencer >> currentClass: aTCls [
 	^ currentClass := aTCls.
 ]
 
+{ #category : #visiting }
+TITypeInferencer >> findClass: aClass withSelector: aSelector [
+
+	^ aClass
+		  compiledMethodAt: aSelector
+		  ifPresent: [ ^ aClass ]
+		  ifAbsent: [ 
+			  aClass classSide
+				  compiledMethodAt: aSelector
+				  ifPresent: [ ^ aClass classSide ]
+				  ifAbsent: [ 
+					  aClass isBehavior
+						  ifTrue: [ self halt ]
+						  ifFalse: [ 
+						  ^ self findClass: aClass superclass withSelector: aSelector ] ] ]
+]
+
 { #category : #accessing }
 TITypeInferencer >> getTCls: classType [
 enviroment at: classType ifAbsentPut: [ TCls class: classType ]. 
@@ -88,16 +105,39 @@ TITypeInferencer >> visitArgumentVariableNode: anRBVariableNode [
 ]
 
 { #category : #visiting }
+TITypeInferencer >> visitAssignmentNode: anAssignmentNode [
+
+	"visiting a assignment node translates into updating or adding the type of the variable"
+| typeOfValue variable |
+typeOfValue := self visit: anAssignmentNode value.
+
+variable := anAssignmentNode variable.
+enviroment at: variable ifPresent: [:variableType | variableType union: typeOfValue] ifAbsentPut: [typeOfValue].
+
+^ typeOfValue
+]
+
+{ #category : #visiting }
 TITypeInferencer >> visitCompiledMethod: aSCompiledNode [
 
 
 ]
 
 { #category : #visiting }
+TITypeInferencer >> visitGlobalVariableNode: aGlobalVariableNode [
+	^ TCls class: aGlobalVariableNode variable value
+]
+
+{ #category : #visiting }
+TITypeInferencer >> visitInstanceVariableNode: anInstanceVariableNode [
+	^ TCls class: anInstanceVariableNode variable value
+]
+
+{ #category : #visiting }
 TITypeInferencer >> visitLiteralValueNode: anRBLiteralValueNode [
 
 	"visiting a value node, should result in a TCls of what ever type the value is"
-	^TCls class: (anRBLiteralValueNode value class).
+	^ TCls class: anRBLiteralValueNode value class
 ]
 
 { #category : #visiting }
@@ -105,15 +145,22 @@ TITypeInferencer >> visitMessageNode: anRBMessageNode [
 
 	"visiting a message translates into visiting the selector node"
 
-	| selector receiver tClsOfReceiver methodType |
+	| selector receiver tClsOfReceiver methodType savedCurrentClass |
 	selector := anRBMessageNode selectorAndArgumentNames.
 	receiver := anRBMessageNode receiver.
 	tClsOfReceiver := self visit: receiver. "I should know what the type of this is or I can compute it"
 	"we need to visit the method"
 	"need a way to get the rbMethodNode of the selector from the class of the receiver"
+	savedCurrentClass := currentClass.
+
+	currentClass := self
+		                findClass: tClsOfReceiver clsName
+		                withSelector: selector asSymbol.
 	methodType := self typeMethod:
-		              tClsOfReceiver clsName >> selector asSymbol.
+		              (currentClass compiledMethodAt: selector asSymbol).
+
 	"unwrap the return type of the method before returning, should it be wraped in a TObj to begin with?"
+	currentClass := savedCurrentClass.
 	^ methodType returnType tv
 	"^ self visit: anRBMessageNode selectorNode"
 ]
