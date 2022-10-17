@@ -41,10 +41,11 @@ TCls >> clsName [
 	^ className
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #equality }
 TCls >> equals: aType [
+
 	aType isTCls ifFalse: [ ^ false ].
-	^ className == aType clsName
+	^ className name == aType clsName name
 ]
 
 { #category : #'as yet unclassified' }

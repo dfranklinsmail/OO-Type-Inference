@@ -141,6 +141,14 @@ TITypeInferencer >> visitLiteralValueNode: anRBLiteralValueNode [
 ]
 
 { #category : #visiting }
+TITypeInferencer >> visitLiteralVariableNode: anRBLiteralVariableNode [
+self halt.
+	"visiting a value node, should result in a TCls of what ever type the value is"
+
+	^ TCls class: anRBLiteralVariableNode value class
+]
+
+{ #category : #visiting }
 TITypeInferencer >> visitMessageNode: anRBMessageNode [
 
 	"visiting a message translates into visiting the selector node"

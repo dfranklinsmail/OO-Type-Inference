@@ -4,6 +4,26 @@ Class {
 	#category : #'OOTypeInference-Types'
 }
 
+{ #category : #'type unification' }
+Typ >> inspectionAST [
+
+	<inspectorPresentationOrder: 35 title: 'AST'>
+	^ SpTreePresenter new
+		  roots: { self ast };
+		  children: [ :aNode | aNode children ];
+		  display: [ :each | 
+			  String streamContents: [ :stream | 
+					  stream
+						  nextPutAll: each class name;
+						  nextPut: $(;
+						  nextPutAll: ((each formattedCode truncateTo: 50)
+								   copyReplaceAll: String cr
+								   with: String space);
+						  nextPut: $) ] ];
+		  yourself
+
+]
+
 { #category : #comparing }
 Typ >> isSameType: aToyTyp env: aMapList [
 	^ self subclassResponsibility
