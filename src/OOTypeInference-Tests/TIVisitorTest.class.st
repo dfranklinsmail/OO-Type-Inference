@@ -155,7 +155,9 @@ TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethod [
 	"set the initial class"
 	typer currentClass: (TCls class: SampleTypeClass).
 	"type the mehtod and assert its equal to what I am expecting"
+	
 	methodType := typer typeMethod: SampleTypeClass >> #simpleMethodCall.
+
 	self assert: (methodType isSameType: aTMthd) equals: true.
 ]
 
