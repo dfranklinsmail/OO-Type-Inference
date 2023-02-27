@@ -53,7 +53,7 @@ TITypeInferencer >> typeMethod: aCompiledMethod [
 	"Recursively traverse the given method and all methods contained 
 until the classes and methods found are typed."
 
-	| inferedType |
+	| inferedType tCls|
 	^ enviroment
 		  at: aCompiledMethod
 		  ifPresent: [ :methodType "if the method has already been typed do we need to type again? Have things changed, class instance variables? " | 
@@ -67,7 +67,21 @@ fully restore an iimage "
 				  cr.
 			  inferedType := self visit: aCompiledMethod ast.
 			  enviroment at: aCompiledMethod put: inferedType.
+			tCls := enviroment at: aCompiledMethod criticClass class.
+			tCls addMethod: inferedType.
 			  ^ inferedType ]
+]
+
+{ #category : #'type inference' }
+TITypeInferencer >> typeMethod: aMethodName inClass: aClass [ 
+	"should I look up the current class instead of assigning it here?"
+	currentClass := enviroment at: aClass class ifAbsentPut: [TCls class: SampleTypeClass class]. 
+	"search the give class for the method, if exists type it"
+	^self typeMethod: (aClass compiledMethodAt: aMethodName ifAbsent: [
+			aClass class compiledMethodAt: aMethodName ifAbsent: [ 
+			 "throw an exception or look for parent implementations?"	
+			]
+		]).
 ]
 
 { #category : #transform }
@@ -142,7 +156,6 @@ TITypeInferencer >> visitLiteralValueNode: anRBLiteralValueNode [
 
 { #category : #visiting }
 TITypeInferencer >> visitLiteralVariableNode: anRBLiteralVariableNode [
-self halt.
 	"visiting a value node, should result in a TCls of what ever type the value is"
 
 	^ TCls class: anRBLiteralVariableNode value class
@@ -164,8 +177,8 @@ TITypeInferencer >> visitMessageNode: anRBMessageNode [
 	currentClass := self
 		                findClass: tClsOfReceiver clsName
 		                withSelector: selector asSymbol.
-	methodType := self typeMethod:
-		              (currentClass compiledMethodAt: selector asSymbol).
+	methodType := self typeMethod: selector asSymbol
+							 inClass: currentClass.
 
 	"unwrap the return type of the method before returning, should it be wraped in a TObj to begin with?"
 	currentClass := savedCurrentClass.

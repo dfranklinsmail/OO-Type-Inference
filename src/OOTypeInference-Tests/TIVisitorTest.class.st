@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 TIVisitorTest >> testTypeForClassMethodCall [
 
-	"type a method that calls another method which returns a SmallInteger"
+	"type a method with no arguments, that calls another method which returns a SmallInteger"
 
 	| typer aTMthd args methodType |
 	typer := TITypeInferencer new.
@@ -23,7 +23,33 @@ TIVisitorTest >> testTypeForClassMethodCall [
 	"type the mehtod and assert its equal to what I am expecting"
 	methodType := typer typeMethod:
 		              SampleTypeClass >> #simpleMethodWithClassSideCall.
-	self assert: (methodType isSameType: aTMthd) equals: true
+	self assert: (methodType isSameType: aTMthd) equals: true.
+]
+
+{ #category : #tests }
+TIVisitorTest >> testTypeForClassMethodCallAndCalledMethod [
+
+	"type a method with no arguments, that calls another method which returns a SmallInteger"
+
+	| typer aTMthd args methodType |
+	typer := TITypeInferencer new.
+
+	args := OrderedCollection new.
+	aTMthd := TMthd
+		          selector: #simpleMethodWithClassSideCall
+		          type: args
+		          arrow: (TObj from: (TCls class: SmallInteger)).
+	
+	"type the mehtod and assert its equal to what I am expecting"
+	methodType := typer typeMethod: #simpleMethodWithClassSideCall inClass: SampleTypeClass.
+	self assert: (methodType isSameType: aTMthd) equals: true.
+	
+	methodType := typer typeMethod: #make inClass: SampleTypeClass2.
+	aTMthd := TMthd
+		          selector: #make
+		          type: args
+		          arrow: (TObj from: (TCls class: SmallInteger)).
+	self assert: (methodType isSameType: aTMthd) equals: true.
 ]
 
 { #category : #tests }
