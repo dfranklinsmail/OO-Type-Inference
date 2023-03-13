@@ -49,7 +49,15 @@ TCls >> equals: aType [
 ]
 
 { #category : #'as yet unclassified' }
-TCls >> hasMethod: aTMthd env: anEnv [.
+TCls >> hasMethod: aTMthd [
+	"loop through methods to see if any of them has the same type as the given aTMthd, 
+	if so return true, otherwise false"
+	methods do: [ :myMthd | self halt. (myMthd isSameType: aTMthd) ifTrue: [^true.]].
+	^false
+]
+
+{ #category : #'as yet unclassified' }
+TCls >> hasMethod: aTMthd env: anEnv [
 	"loop through methods to see if any of them has the same type as the given aTMthd, 
 	if so return true, otherwise false"
 	methods do: [ :myMthd | (myMthd isSameType: aTMthd env: anEnv) ifTrue: [^true.]].
@@ -70,14 +78,14 @@ TCls >> initialize [
 	variables := OrderedCollection new.
 ]
 
-{ #category : #'as yet unclassified' }
-TCls >> isSameMethods: aTType [
+{ #category : #comparing }
+TCls >> isSameMethods: aTCls [
 
 	| hasAllMethods |
 	hasAllMethods := true.
 	methods do: [ :aMthd | 
 		hasAllMethods := hasAllMethods
-		                 & (aTType hasMethod: aMthd) ].
+		                 & (aTCls hasMethod: aMthd) ].
 
 	^ hasAllMethods
 ]

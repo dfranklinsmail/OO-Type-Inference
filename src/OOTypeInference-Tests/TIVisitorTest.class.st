@@ -18,11 +18,10 @@ TIVisitorTest >> testTypeForClassMethodCall [
 		          type: args
 		          arrow: (TObj from: (TCls class: SmallInteger)).
 
-	"set the initial class"
-	typer currentClass: (TCls class: SampleTypeClass).
+
 	"type the mehtod and assert its equal to what I am expecting"
-	methodType := typer typeMethod:
-		              SampleTypeClass >> #simpleMethodWithClassSideCall.
+	methodType := typer typeMethod: #simpleMethodWithClassSideCall
+							  inClass: SampleTypeClass.
 	self assert: (methodType isSameType: aTMthd) equals: true.
 ]
 
@@ -68,10 +67,9 @@ TIVisitorTest >> testTypeMethodWithArgument [
 	typer := TITypeInferencer new.
 	arguments := OrderedCollection new.
 	arguments add: (TCls class: SmallInteger).
-	inferedType := typer
-		               typeMethod:
-		               SampleTypeClass >> #simpleMethodWithArgument:
-		               with: arguments.
+	inferedType := typer typeMethod: #simpleMethodWithArgument:
+							with: arguments
+						   inClass: SampleTypeClass .
 
 	self assert: (inferedType isSameType: aTMthd) equals: true
 ]
@@ -89,9 +87,7 @@ TIVisitorTest >> testTypeReturnInstanceVarMethod [
 		                arrow: (TCls class: SmallInteger).
 
 	typer := TITypeInferencer new.
-	typer currentClass: (TCls class: SampleTypeClass2).
-	inferedType := typer typeMethod:
-		               SampleTypeClass2 >> #methodReturnsInstanceVariable.
+	inferedType := typer typeMethod: #methodReturnsInstanceVariable inClass: SampleTypeClass2.
 
 	"self assert: inferedType equals: expectedType"
 	self assert: (inferedType isSameType: expectedType) equals: true
@@ -102,18 +98,19 @@ TIVisitorTest >> testTypeSelfMethod [
 
 	"type a method that returns self"
 
-	| typer aTMthd args inferedType |
+	| args aTMthd theMehtodResultTCls typer inferedType |
 	args := OrderedCollection new.
+	theMehtodResultTCls := (TCls class: SampleTypeClass2).
 	aTMthd := TMthd
 		          selector: #methodReturnsSelf
 		          type: args
-		          arrow: (TObj from: (TCls class: SampleTypeClass2)).
-
+		          arrow: (TObj from: theMehtodResultTCls).
+	theMehtodResultTCls addMethod: aTMthd.
+	
 	typer := TITypeInferencer new.
-	typer currentClass: (TCls class: SampleTypeClass2).
-	inferedType := typer typeMethod:
-		               SampleTypeClass2 >> #methodReturnsSelf.
+	inferedType := typer typeMethod: #methodReturnsSelf inClass: SampleTypeClass2.
 
+"LOOPS forever how to prove two methods are the same when the result type is self and need to check if the methods are the same, which then needs to check if the result type is the same...infinite loop"
 	self assert: (inferedType isSameType: aTMthd) equals: true
 ]
 
@@ -130,10 +127,9 @@ TIVisitorTest >> testTypeSimpleMethod [
 		          arrow: (TObj from: (TCls class: SmallInteger)).
 
 	typer := TITypeInferencer new.
-	typer currentClass: (TCls class: SampleTypeClass).
 	self
 		assert:
-			((typer typeMethod: SampleTypeClass >> #simpleMethod) isSameType:
+			((typer typeMethod: #simpleMethod inClass: SampleTypeClass) isSameType:
 				 aTMthd)
 		equals: true
 ]

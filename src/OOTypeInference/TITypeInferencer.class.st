@@ -74,14 +74,7 @@ fully restore an iimage "
 
 { #category : #'type inference' }
 TITypeInferencer >> typeMethod: aMethodName inClass: aClass [ 
-	"should I look up the current class instead of assigning it here?"
-	currentClass := enviroment at: aClass class ifAbsentPut: [TCls class: SampleTypeClass class]. 
-	"search the give class for the method, if exists type it"
-	^self typeMethod: (aClass compiledMethodAt: aMethodName ifAbsent: [
-			aClass class compiledMethodAt: aMethodName ifAbsent: [ 
-			 "throw an exception or look for parent implementations?"	
-			]
-		]).
+	^self typeMethod: aMethodName with: OrderedCollection new inClass: aClass.
 ]
 
 { #category : #transform }
@@ -104,6 +97,19 @@ until the classes and methods found are typed."
 
 	instanceVariables := oldInstanceVariables.
 	^ methodType
+]
+
+{ #category : #transform }
+TITypeInferencer >> typeMethod: aMethodName with: arguments inClass: aClass [
+
+	"should I look up the current class instead of assigning it here?"
+	currentClass := enviroment at: aClass class ifAbsentPut: [TCls class: SampleTypeClass class]. 
+	"search the give class for the method, if exists type it"
+	^self typeMethod: (aClass compiledMethodAt: aMethodName ifAbsent: [
+			aClass class compiledMethodAt: aMethodName ifAbsent: [ 
+			 "throw an exception or look for parent implementations?"	
+			]
+		]) with: arguments.
 ]
 
 { #category : #visiting }
