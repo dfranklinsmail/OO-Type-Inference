@@ -67,7 +67,7 @@ fully restore an iimage "
 				  cr.
 			  inferedType := self visit: aCompiledMethod ast.
 			  enviroment at: aCompiledMethod put: inferedType.
-			tCls := enviroment at: aCompiledMethod criticClass class.
+			tCls := enviroment at: aCompiledMethod criticClass.
 			tCls addMethod: inferedType.
 			  ^ inferedType ]
 ]
@@ -103,11 +103,12 @@ until the classes and methods found are typed."
 TITypeInferencer >> typeMethod: aMethodName with: arguments inClass: aClass [
 
 	"should I look up the current class instead of assigning it here?"
-	currentClass := enviroment at: aClass class ifAbsentPut: [TCls class: SampleTypeClass class]. 
+	currentClass := enviroment at: aClass ifAbsentPut: [TCls class: aClass]. 
 	"search the give class for the method, if exists type it"
 	^self typeMethod: (aClass compiledMethodAt: aMethodName ifAbsent: [
 			aClass class compiledMethodAt: aMethodName ifAbsent: [ 
 			 "throw an exception or look for parent implementations?"	
+				self halt.
 			]
 		]) with: arguments.
 ]

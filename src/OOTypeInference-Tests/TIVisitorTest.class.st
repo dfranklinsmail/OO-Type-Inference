@@ -103,8 +103,8 @@ TIVisitorTest >> testTypeSelfMethod [
 	theMehtodResultTCls := (TCls class: SampleTypeClass2).
 	aTMthd := TMthd
 		          selector: #methodReturnsSelf
-		          type: args
-		          arrow: (TObj from: theMehtodResultTCls).
+		          type: args "empty args, should I just default this"
+		          arrow: (TObj from: theMehtodResultTCls). "should I rename to result or returnType"
 	theMehtodResultTCls addMethod: aTMthd.
 	
 	typer := TITypeInferencer new.

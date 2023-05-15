@@ -3,7 +3,8 @@ Class {
 	#superclass : #TArrow,
 	#instVars : [
 		'selector',
-		'returnType'
+		'returnType',
+		'parentTCls'
 	],
 	#category : #'OOTypeInference-Types'
 }
@@ -52,6 +53,16 @@ TMthd >> isSameType: aToyTyp env: aEnv [
 { #category : #accessing }
 TMthd >> isTMthd [
 	^true.
+]
+
+{ #category : #accessing }
+TMthd >> parentTCls [
+	^parentTCls
+]
+
+{ #category : #accessing }
+TMthd >> parentTCls: aTCls [
+	parentTCls := aTCls 
 ]
 
 { #category : #accessing }

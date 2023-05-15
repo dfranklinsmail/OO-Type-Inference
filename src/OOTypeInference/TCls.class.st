@@ -17,6 +17,7 @@ TCls class >> class: aClassName [
 { #category : #'as yet unclassified' }
 TCls >> addMethod: aTMthd [
 	methods add: aTMthd.
+	aTMthd parentTCls: self.
 ]
 
 { #category : #'as yet unclassified' }
@@ -52,7 +53,11 @@ TCls >> equals: aType [
 TCls >> hasMethod: aTMthd [
 	"loop through methods to see if any of them has the same type as the given aTMthd, 
 	if so return true, otherwise false"
-	methods do: [ :myMthd | self halt. (myMthd isSameType: aTMthd) ifTrue: [^true.]].
+	"methods do: [ :myMthd | self halt. (myMthd isSameType: aTMthd) ifTrue: [^true.]]."
+	
+	"loop through methods to see if any of them matches the given methods slector"
+	methods do: [ :myMthd | (myMthd selector == aTMthd selector) ifTrue: [^true.]].
+	
 	^false
 ]
 
