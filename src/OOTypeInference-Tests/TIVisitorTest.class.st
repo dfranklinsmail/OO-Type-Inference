@@ -15,8 +15,8 @@ TIVisitorTest >> testTypeForClassMethodCall [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodWithClassSideCall
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 
 	"type the mehtod and assert its equal to what I am expecting"
@@ -36,8 +36,8 @@ TIVisitorTest >> testTypeForClassMethodCallAndCalledMethod [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodWithClassSideCall
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 	
 	"type the mehtod and assert its equal to what I am expecting"
 	methodType := typer typeMethod: #simpleMethodWithClassSideCall inClass: SampleTypeClass.
@@ -46,8 +46,8 @@ TIVisitorTest >> testTypeForClassMethodCallAndCalledMethod [
 	methodType := typer typeMethod: #make inClass: SampleTypeClass2.
 	aTMthd := TMthd
 		          selector: #make
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 	self assert: (methodType isSameType: aTMthd) equals: true.
 ]
 
@@ -61,8 +61,8 @@ TIVisitorTest >> testTypeMethodWithArgument [
 	args add: (TCls class: SmallInteger).
 	aTMthd := TMthd
 		          selector: #simpleMethodWithArgument:
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 	typer := TITypeInferencer new.
 	arguments := OrderedCollection new.
@@ -83,8 +83,8 @@ TIVisitorTest >> testTypeReturnInstanceVarMethod [
 	args := OrderedCollection new.
 	expectedType := TMthd
 		                selector: #methodReturnsInstanceVariable
-		                type: args
-		                arrow: (TCls class: SmallInteger).
+		                arguments: args
+		                result: (TCls class: SmallInteger).
 
 	typer := TITypeInferencer new.
 	inferedType := typer typeMethod: #methodReturnsInstanceVariable inClass: SampleTypeClass2.
@@ -103,8 +103,8 @@ TIVisitorTest >> testTypeSelfMethod [
 	theMehtodResultTCls := (TCls class: SampleTypeClass2).
 	aTMthd := TMthd
 		          selector: #methodReturnsSelf
-		          type: args "empty args, should I just default this"
-		          arrow: (TObj from: theMehtodResultTCls). "should I rename to result or returnType"
+		          arguments: args "empty args, should I just default this"
+		          result: (TObj from: theMehtodResultTCls). "should I rename to result or returnType"
 	theMehtodResultTCls addMethod: aTMthd.
 	
 	typer := TITypeInferencer new.
@@ -123,8 +123,8 @@ TIVisitorTest >> testTypeSimpleMethod [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethod
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 	typer := TITypeInferencer new.
 	self
@@ -145,8 +145,8 @@ TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethod [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodCall
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 	"set the initial class"
 	typer currentClass: (TCls class: SampleTypeClass).
@@ -162,17 +162,13 @@ TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethodWithNew [
 
 	"type a method that calls another method which returns a SmallInteger"
 
-	| typer aTMthd args methodType |
+	| typer aTMthd methodType |
 	typer := TITypeInferencer new.
 
-	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodWithNew
-		          type: args
-		          arrow: (TObj from: (TCls class: SampleTypeClass2)).
+		          result: (TObj from: (TCls class: SampleTypeClass2)).
 
-	"set the initial class"
-	typer currentClass: (TCls class: SampleTypeClass).
 	"type the mehtod and assert its equal to what I am expecting"
 	methodType := typer typeMethod:
 		              SampleTypeClass >> #simpleMethodWithNew.

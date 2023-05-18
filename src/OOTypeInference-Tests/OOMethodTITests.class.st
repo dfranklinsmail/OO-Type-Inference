@@ -47,7 +47,7 @@ aMethod addStatement: (Rtrn exp: (Var varname: #x)).
 
 args := OrderedCollection new.
 args add: (TCls class: Int).
-expectedType := TMthd selector: aSelector type: args  arrow: (TCls class: Int).
+expectedType := TMthd selector: aSelector arguments: args  result: (TCls class: Int).
 
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 ]
@@ -142,7 +142,7 @@ aMethod selector: aSelector.
 aMethod addStatement: (Asn varname: #x expression: (Int new)).
 
 args := OrderedCollection new.
-expectedType := TMthd selector: aSelector type: args arrow: (TCls class: (Int class)).
+expectedType := TMthd selector: aSelector arguments: args result: (TCls class: (Int class)).
 self assert: (aMethod typeOf: Dictionary new) equals: expectedType.
 
 
@@ -178,6 +178,6 @@ OOMethodTITests >> testUnifyMthd [
 	args := OrderedCollection new.
 	args add: (TCls class: (Int class)).
 	
-	expectedUnificationLooksLike := TMthd selector: aSelector type: args arrow: (TCls class: (self class)).
+	expectedUnificationLooksLike := TMthd selector: aSelector arguments: args result: (TCls class: (self class)).
 	self assert: typMthdA equals: expectedUnificationLooksLike.
 ]

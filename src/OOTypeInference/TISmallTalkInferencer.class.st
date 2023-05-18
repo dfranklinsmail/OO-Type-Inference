@@ -60,6 +60,6 @@ TISmallTalkInferencer >> visitMethodNode: anRBMethodNode [
 
 	^ TMthd
 		  selector: anRBMethodNode selector
-		  type: args
-		  arrow: (constraints at: 1)
+		  arguments: args
+		  result: (constraints at: 1)
 ]

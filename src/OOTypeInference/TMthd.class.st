@@ -10,12 +10,21 @@ Class {
 }
 
 { #category : #'instance creation' }
-TMthd class >> selector: selector type: aTyp1 arrow: aTyp2 [
+TMthd class >> selector: selector arguments: args result: aTyp [
 
 	^ self new
 		  selector: selector;
-		  returnType: aTyp2;
-		type: aTyp1 arrow: aTyp2
+		  returnType: aTyp;
+		  type: args arrow: aTyp
+]
+
+{ #category : #'instance creation' }
+TMthd class >> selector: selector result: aTyp [
+
+	^ self new
+		  selector: selector;
+		  returnType: aTyp;
+		  type: OrderedCollection new arrow: aTyp
 ]
 
 { #category : #accessing }
@@ -94,9 +103,10 @@ TMthd >> selector: aSelector [
 ]
 
 { #category : #accessing }
-TMthd >> selector: aSelector type: aTyp1 arrow: aTyp2 [
+TMthd >> selector: aSelector arguments: args result: aTyp [
+
 	selector := aSelector.
-	self type: aTyp1 arrow: aTyp2.
+	self type: args arrow: aTyp
 ]
 
 { #category : #accessing }

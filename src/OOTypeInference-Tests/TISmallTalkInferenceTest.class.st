@@ -15,8 +15,8 @@ TISmallTalkInferenceTest >> testTypeForClassMethodCall [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodWithClassSideCall
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 	"set the initial class"
 	inferencer currentClass: SampleTypeClass.
@@ -36,8 +36,8 @@ TISmallTalkInferenceTest >> testTypeMethodWithArgument [
 	args add: (TCls class: SmallInteger).
 	aTMthd := TMthd
 		          selector: #simpleMethodWithArgument:
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 	typer := TITypeInferencer new.
 	arguments := OrderedCollection new.
@@ -59,8 +59,8 @@ TISmallTalkInferenceTest >> testTypeReturnInstanceVarMethod [
 	args := OrderedCollection new.
 	expectedType := TMthd
 		                selector: #methodReturnsInstanceVariable
-		                type: args
-		                arrow: (TCls class: SmallInteger).
+		                arguments: args
+		                result: (TCls class: SmallInteger).
 
 	typer := TITypeInferencer new.
 	typer currentClass: (TCls class: SampleTypeClass2).
@@ -80,8 +80,8 @@ TISmallTalkInferenceTest >> testTypeSelfMethod [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #methodReturnsSelf
-		          type: args
-		          arrow: (TObj from: (TCls class: SampleTypeClass2)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SampleTypeClass2)).
 
 	typer := TITypeInferencer new.
 	typer currentClass: (TCls class: SampleTypeClass2).
@@ -100,8 +100,8 @@ TISmallTalkInferenceTest >> testTypeSimpleMethod [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethod
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 	typer := TITypeInferencer new.
 	typer currentClass: (TCls class: SampleTypeClass).
@@ -123,8 +123,8 @@ TISmallTalkInferenceTest >> testTypeSimpleMethodCallsSimpleMethod [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodCall
-		          type: args
-		          arrow: (TObj from: (TCls class: SmallInteger)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SmallInteger)).
 
 	"set the initial class"
 	typer currentClass: (TCls class: SampleTypeClass).
@@ -144,8 +144,8 @@ TISmallTalkInferenceTest >> testTypeSimpleMethodCallsSimpleMethodWithNew [
 	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodWithNew
-		          type: args
-		          arrow: (TObj from: (TCls class: SampleTypeClass2)).
+		          arguments: args
+		          result: (TObj from: (TCls class: SampleTypeClass2)).
 
 	"set the initial class"
 	typer currentClass: (TCls class: SampleTypeClass).

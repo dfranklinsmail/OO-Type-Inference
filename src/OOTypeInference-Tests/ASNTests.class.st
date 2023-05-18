@@ -29,8 +29,8 @@ args := OrderedCollection new:1.
 args add: (TVar newvar: #x).
 expextedClsType := TCls class: (Int class).
 expextedClsType addMethod: (TMthd selector: aMethodSelector 
-											type: args
-											arrow: (TVar tv: (TCls class: (Int class)))).
+											arguments: args
+											result: (TVar tv: (TCls class: (Int class)))).
 
 type := aClass typeOf: Dictionary new.
 self assert: (aClass typeOf: Dictionary new) equals: expextedClsType.
@@ -57,8 +57,8 @@ aClass addVariable: (Var varname: #x).
 
 expectedClsType := TCls new.
 expectedClsType addMethod: (TMthd selector: aMethodSelector 
-											type: (OrderedCollection new:0) 
-											arrow: (TVar tv: (TCls class:self))).
+											arguments: (OrderedCollection new:0) 
+											result: (TVar tv: (TCls class:self))).
 expectedClsType addVariable: (TVar tv: (TCls class: (Int class))).
 
 self assert: (aClass typeOf: Dictionary new) equals: expectedClsType.

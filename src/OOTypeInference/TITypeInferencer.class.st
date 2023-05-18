@@ -20,18 +20,20 @@ TITypeInferencer >> currentClass: aTCls [
 
 { #category : #visiting }
 TITypeInferencer >> findClass: aClass withSelector: aSelector [
+"spectial case for when selector is 'new'"
+aSelector == #new ifTrue:  [ ^ aClass ].
 
-	^ aClass
-		  compiledMethodAt: aSelector
-		  ifPresent: [ ^ aClass ]
-		  ifAbsent: [ 
-			  aClass classSide
-				  compiledMethodAt: aSelector
-				  ifPresent: [ ^ aClass classSide ]
-				  ifAbsent: [ 
-					  aClass isBehavior
-						  ifTrue: [ self halt ]
-						  ifFalse: [ 
+"otherwise look up selector in the classes compiled methods"
+aClass compiledMethodAt: aSelector
+	ifPresent: [ ^ aClass ]
+	ifAbsent: [ 
+		"check if the slector is a class side method, should it just return aClass?"
+		aClass classSide compiledMethodAt: aSelector
+			ifPresent: [ ^ aClass classSide ]
+			ifAbsent: [ 
+				aClass isBehavior
+					ifTrue: [ self halt ]
+					ifFalse: [ 
 						  ^ self findClass: aClass superclass withSelector: aSelector ] ] ]
 ]
 
@@ -67,7 +69,8 @@ fully restore an iimage "
 				  cr.
 			  inferedType := self visit: aCompiledMethod ast.
 			  enviroment at: aCompiledMethod put: inferedType.
-			tCls := enviroment at: aCompiledMethod criticClass.
+			"add the method to the typed class in the environment"
+			tCls := enviroment at: aCompiledMethod criticClass ifAbsent: [ enviroment at: aCompiledMethod criticClass put: (TCls class: aCompiledMethod criticClass)] .
 			tCls addMethod: inferedType.
 			  ^ inferedType ]
 ]
@@ -101,7 +104,9 @@ until the classes and methods found are typed."
 
 { #category : #transform }
 TITypeInferencer >> typeMethod: aMethodName with: arguments inClass: aClass [
-
+	"special case when selector is new"
+	aMethodName == #new ifTrue: [ ^ TMthd selector: #new result: (TObj from: (TCls class: aClass))].
+	
 	"should I look up the current class instead of assigning it here?"
 	currentClass := enviroment at: aClass ifAbsentPut: [TCls class: aClass]. 
 	"search the give class for the method, if exists type it"
@@ -203,8 +208,8 @@ TITypeInferencer >> visitMethodNode: anRBMethodNode [
 
 	^ TMthd
 		  selector: anRBMethodNode selector
-		  type: args
-		  arrow: (constraints at: 1)
+		  arguments: args
+		  result: (constraints at: 1)
 ]
 
 { #category : #visiting }

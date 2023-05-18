@@ -128,7 +128,7 @@ OOClassTITest >> testSimpleTypeWithMethod [
 	args := OrderedCollection new.
 	args add: TVar newvar.
 	"add a method with the 'aSelector' selector arguments list of just a new TVar and returns a TCls of Int type"
-	aTCls addMethod: (TMthd selector: aSelector type: args arrow: (TCls class: (aCls class))).
+	aTCls addMethod: (TMthd selector: aSelector arguments: args result: (TCls class: (aCls class))).
 	
 	self assert: (aCls typeOf: IdentityDictionary new) equals: aTCls.
 	
@@ -169,7 +169,7 @@ OOClassTITest >> testSimpleTypeWithVariableAndType [
 	
 	anotherTCls := TCls new.
 	anotherTCls addVariable: (TVar tv:((Int new) typeOf: IdentityDictionary new)).
-	anotherTCls addMethod: (TMthd selector: aSelector type: (OrderedCollection new) arrow: (TCls class: (Int new))).
+	anotherTCls addMethod: (TMthd selector: aSelector arguments: (OrderedCollection new) result: (TCls class: (Int new))).
 	self assert: (aCls typeOf: IdentityDictionary new) equals: anotherTCls.
 	
 	
