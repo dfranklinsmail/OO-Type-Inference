@@ -104,18 +104,30 @@ until the classes and methods found are typed."
 
 { #category : #transform }
 TITypeInferencer >> typeMethod: aMethodName with: arguments inClass: aClass [
-	"special case when selector is new"
-	aMethodName == #new ifTrue: [ ^ TMthd selector: #new result: (TObj from: (TCls class: aClass))].
-	
 	"should I look up the current class instead of assigning it here?"
-	currentClass := enviroment at: aClass ifAbsentPut: [TCls class: aClass]. 
+
+	currentClass := enviroment
+		                at: aClass
+		                ifAbsentPut: [ TCls class: aClass ].
+
+
 	"search the give class for the method, if exists type it"
-	^self typeMethod: (aClass compiledMethodAt: aMethodName ifAbsent: [
-			aClass class compiledMethodAt: aMethodName ifAbsent: [ 
-			 "throw an exception or look for parent implementations?"	
-				self halt.
-			]
-		]) with: arguments.
+	^ self
+		  typeMethod: (aClass compiledMethodAt: aMethodName ifAbsent: [
+				   aClass class
+					   compiledMethodAt: aMethodName
+					   ifAbsent: [ "special case when selector is new"
+						   "throw an exception or look for parent implementations?"
+						 
+						aMethodName == #new ifTrue: [
+							   | method |
+							   method := TMthd
+								             selector: #new
+								             result: (TObj from: (TCls class: aClass)).
+							   currentClass addMethod: method.
+							   ^ method ].
+						   ] ])
+		  with: arguments
 ]
 
 { #category : #visiting }

@@ -162,15 +162,38 @@ TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethodWithNew [
 
 	"type a method that calls another method which returns a SmallInteger"
 
-	| typer aTMthd methodType |
+	| typer aTMthd aTCls methodType |
 	typer := TITypeInferencer new.
 
 	aTMthd := TMthd
 		          selector: #simpleMethodWithNew
 		          result: (TObj from: (TCls class: SampleTypeClass2)).
-
+	aTCls := TCls class: SampleTypeClass.
+	aTCls addMethod: aTMthd.
+	
 	"type the mehtod and assert its equal to what I am expecting"
-	methodType := typer typeMethod:
-		              SampleTypeClass >> #simpleMethodWithNew.
+	methodType := typer typeMethod: #simpleMethodWithNew inClass: SampleTypeClass.
+	
 	self assert: (methodType isSameType: aTMthd) equals: true.
+	self assert: (methodType parentTCls isSameType: aTCls) equals: true.
+]
+
+{ #category : #tests }
+TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethodWithNewReturnsSmallInteger [
+	"type a method that calls another method which returns a SmallInteger"
+
+	| typer aTMthd aTCls methodType |
+	typer := TITypeInferencer new.
+	
+	aTMthd := TMthd selector: #new result: (TCls class: SmallInteger).
+	"what is this a TCLs?"
+	aTCls := TCls class: SampleTypeClassNewReturnsSmallInteger class.
+	aTCls addMethod: aTMthd.
+	"type the mehtod and assert its equal to what I am expecting"
+	methodType := typer
+		              typeMethod: #new
+		              inClass: SampleTypeClassNewReturnsSmallInteger.
+
+	self assert: (methodType isSameType: aTMthd) equals: true.
+	self assert: (methodType parentTCls isSameType: aTCls) equals: true
 ]
