@@ -105,7 +105,7 @@ until the classes and methods found are typed."
 		                at: aClass
 		                ifAbsentPut: [ TCls class: aClass ].
 
-	mthdTyp := currentClass methods
+	mthdTyp := currentClass instanceMethods  
 		           at: aMethodName
 		           ifPresent: [ :mTyp "if the method has already been typed do we need to type again? Have things changed, class instance variables? " |
 			           ^ mTyp "if we type again should we unify?" ]
