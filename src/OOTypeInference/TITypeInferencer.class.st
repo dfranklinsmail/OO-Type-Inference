@@ -71,7 +71,7 @@ fully restore an iimage "
 			  enviroment at: aCompiledMethod put: inferedType.
 			"add the method to the typed class in the environment"
 			tCls := enviroment at: aCompiledMethod criticClass ifAbsent: [ enviroment at: aCompiledMethod criticClass put: (TCls class: aCompiledMethod criticClass)] .
-			tCls addMethod: inferedType.
+			tCls addInstMethod: inferedType.
 			  ^ inferedType ]
 ]
 
@@ -124,7 +124,7 @@ TITypeInferencer >> typeMethod: aMethodName with: arguments inClass: aClass [
 							   method := TMthd
 								             selector: #new
 								             result: (TObj from: (TCls class: aClass)).
-							   currentClass addMethod: method.
+							   currentClass addInstMethod: method.
 							   ^ method ].
 						   ] ])
 		  with: arguments

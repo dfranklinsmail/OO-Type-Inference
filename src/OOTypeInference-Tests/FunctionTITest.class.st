@@ -248,13 +248,15 @@ FunctionTITest >> testSameType2 [
 
 { #category : #tests }
 FunctionTITest >> testSameType3 [
-   "tests that a -> (a -> b) is the same as b-> (a -> b)"
+	"tests that a -> (a -> b) is the same as b-> (a -> b)"
+
 	| t1 t2 expectedType |
 	t1 := TVar newvar.
 	t2 := TVar newvar.
-	expectedType := TArrow type: t1  arrow: (TArrow type: t1 arrow: t2).
-	self deny: (TArrow type: t2 arrow: (TArrow type: t1 arrow: t2)) equals: expectedType.
-
+	expectedType := TArrow type: t1 arrow: (TArrow type: t1 arrow: t2).
+	self
+		deny: (TArrow type: t2 arrow: (TArrow type: t1 arrow: t2))
+		equals: expectedType
 ]
 
 { #category : #tests }

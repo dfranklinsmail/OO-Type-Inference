@@ -5,6 +5,31 @@ Class {
 }
 
 { #category : #tests }
+TIVisitorTest >> testTClsInstanceVsClassSideMethods [
+	"Test that a class with a class side method is not equal to a class with an instance side method even if the methods themselvs have the same type"
+
+	| aTClsWithClassSide aTMthd1 aTClsWithInstanceSice aTMthd2 |
+	aTMthd1 := TMthd selector: #new result: (TCls class: SmallInteger).
+	"what is this a TCLs?"
+	aTClsWithClassSide := TCls class:
+		                      SampleTypeClassNewReturnsSmallInteger class.
+	aTClsWithClassSide addClsMethod: aTMthd1.
+
+	aTMthd2 := TMthd selector: #new result: (TCls class: SmallInteger).
+	"what is this a TCLs?"
+	aTClsWithInstanceSice := TCls class:
+		                         SampleTypeClassNewReturnsSmallInteger class.
+	aTClsWithInstanceSice addInstMethod: aTMthd2.
+	"type the mehtod and assert its equal to what I am expecting"
+
+
+	self
+		assert: (aTClsWithClassSide isSameType: aTClsWithInstanceSice)
+		equals: false.
+	self assert: (aTMthd1 isSameType: aTMthd2) equals: true
+]
+
+{ #category : #tests }
 TIVisitorTest >> testTypeForClassMethodCall [
 
 	"type a method with no arguments, that calls another method which returns a SmallInteger"
@@ -105,7 +130,7 @@ TIVisitorTest >> testTypeSelfMethod [
 		          selector: #methodReturnsSelf
 		          arguments: args "empty args, should I just default this"
 		          result: (TObj from: theMehtodResultTCls). "should I rename to result or returnType"
-	theMehtodResultTCls addMethod: aTMthd.
+	theMehtodResultTCls addInstMethod: aTMthd.
 	
 	typer := TITypeInferencer new.
 	inferedType := typer typeMethod: #methodReturnsSelf inClass: SampleTypeClass2.
@@ -169,7 +194,7 @@ TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethodWithNew [
 		          selector: #simpleMethodWithNew
 		          result: (TObj from: (TCls class: SampleTypeClass2)).
 	aTCls := TCls class: SampleTypeClass.
-	aTCls addMethod: aTMthd.
+	aTCls addInstMethod: aTMthd.
 	
 	"type the mehtod and assert its equal to what I am expecting"
 	methodType := typer typeMethod: #simpleMethodWithNew inClass: SampleTypeClass.
@@ -188,7 +213,7 @@ TIVisitorTest >> testTypeSimpleMethodCallsSimpleMethodWithNewReturnsSmallInteger
 	aTMthd := TMthd selector: #new result: (TCls class: SmallInteger).
 	"what is this a TCLs?"
 	aTCls := TCls class: SampleTypeClassNewReturnsSmallInteger class.
-	aTCls addMethod: aTMthd.
+	aTCls addInstMethod: aTMthd.
 	"type the mehtod and assert its equal to what I am expecting"
 	methodType := typer
 		              typeMethod: #new

@@ -6,23 +6,19 @@ Class {
 
 { #category : #tests }
 TISmallTalkInferenceTest >> testTypeForClassMethodCall [
-
 	"type a method that calls another method which returns a SmallInteger"
 
-	| inferencer aTMthd args methodType |
+	| inferencer aTMthd methodType |
 	inferencer := TISmallTalkInferencer new.
 
-	args := OrderedCollection new.
 	aTMthd := TMthd
 		          selector: #simpleMethodWithClassSideCall
-		          arguments: args
 		          result: (TObj from: (TCls class: SmallInteger)).
 
-	"set the initial class"
-	inferencer currentClass: SampleTypeClass.
 	"type the mehtod and assert its equal to what I am expecting"
-	methodType := inferencer typeMethod:
-		              SampleTypeClass >> #simpleMethodWithClassSideCall.
+	methodType := inferencer
+		              typeMethod: #simpleMethodWithClassSideCall
+		              inClass: SampleTypeClass.
 	self assert: (methodType isSameType: aTMthd) equals: true
 ]
 
