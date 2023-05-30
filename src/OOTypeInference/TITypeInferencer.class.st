@@ -55,11 +55,11 @@ TITypeInferencer >> typeMethod: aCompiledMethod [
 	"Recursively traverse the given method and all methods contained 
 until the classes and methods found are typed."
 
-	| inferedType tCls|
+	| inferedMthdType tCls|
 	^ enviroment
 		  at: aCompiledMethod
-		  ifPresent: [ :methodType "if the method has already been typed do we need to type again? Have things changed, class instance variables? " | 
-			  ^ methodType ]
+		  ifPresent: [ :mthdTyp "if the method has already been typed do we need to type again? Have things changed, class instance variables? " | 
+			  ^ mthdTyp ]
 		  ifAbsentPut: [ "contains needs to be interesting, ""If you run a smalltalk program and 'save exit the ide/vm,
 would you resume execution from where you left off?. Can you
 fully restore an iimage "
@@ -67,12 +67,13 @@ fully restore an iimage "
 				  show: 'typing method ';
 				  show: aCompiledMethod;
 				  cr.
-			  inferedType := self visit: aCompiledMethod ast.
-			  enviroment at: aCompiledMethod put: inferedType.
+			  inferedMthdType := self visit: aCompiledMethod ast.
+			  enviroment at: aCompiledMethod put: inferedMthdType.
 			"add the method to the typed class in the environment"
 			tCls := enviroment at: aCompiledMethod criticClass ifAbsent: [ enviroment at: aCompiledMethod criticClass put: (TCls class: aCompiledMethod criticClass)] .
-			tCls addInstMethod: inferedType.
-			  ^ inferedType ]
+			tCls addInstMethod: inferedMthdType.
+			
+			  ^ inferedMthdType ]
 ]
 
 { #category : #'type inference' }
@@ -94,7 +95,7 @@ until the classes and methods found are typed."
 		put: (TCls class: aCompiledMethod realClass).
 	arguments
 		with: aCompiledMethod argumentNames
-		do: [ :type :name | instanceVariables at: name put: type ].
+		do: [ :type :name | instanceVariables at: name put: (self visit: type) ].
 
 	methodType := self typeMethod: aCompiledMethod.
 
@@ -139,9 +140,8 @@ TITypeInferencer >> visit: anRBNode [
 TITypeInferencer >> visitArgumentVariableNode: anRBVariableNode [
 "return the arguments type"
 | value |
-   self halt.
-	value := instanceVariables at: (anRBVariableNode name).
-	value := value acceptVisitor: self.
+   value := instanceVariables at: (anRBVariableNode name).
+	"value := value acceptVisitor: self."
 	^ value
 ]
 
@@ -166,7 +166,6 @@ TITypeInferencer >> visitBlockNode: aBlockNode [
 	"arguments := aBlockNode arguments.
 	temps := aBlockNode body temporaries.
 	statements := aBlockNode body statements."
-self halt.
 	argTyps := aBlockNode arguments collect: [ :arg |
 		        instanceVariables at: arg "look at instanceVariables to get arg type""visit: arg" ].
 	constraints := aBlockNode body statements collect: [ :statement |
@@ -210,19 +209,23 @@ TITypeInferencer >> visitMessageNode: anRBMessageNode [
 
 	"visiting a message translates into visiting the selector node"
 
-	| selector selectorWithArguments arguments receiver tClsOfReceiver methodType savedCurrentClass |
+	| selector selectorWithArguments arguments receiver typOfReceiver methodType savedCurrentClass |
 	selectorWithArguments := anRBMessageNode selectorAndArgumentNames.
 	selector := anRBMessageNode selector.
 	arguments  := anRBMessageNode arguments.
 	
 	receiver := anRBMessageNode receiver.
-	tClsOfReceiver := self visit: receiver. "I should know what the type of this is or I can compute it"
+	typOfReceiver := self visit: receiver. 
+	typOfReceiver isTArrow & (selector = #value) ifTrue: [ 
+		^ typOfReceiver resultTyp
+	].
+	"I should know what the type of this is or I can compute it"
 	"we need to visit the method"
 	"need a way to get the rbMethodNode of the selector from the class of the receiver"
 	savedCurrentClass := currentClass.
 
 	currentClass := self
-		                findClass: tClsOfReceiver clsName
+		                findClass: typOfReceiver clsName
 		                withSelector: selector asSymbol.
 	methodType := self typeMethod: selector asSymbol
 							 with: arguments
@@ -239,7 +242,7 @@ TITypeInferencer >> visitMethodNode: anRBMethodNode [
 
 	| args constraints |
 	args := anRBMethodNode allArgumentVariables collect: [:arg | instanceVariables at: arg."look at instanceVariables to get arg type""visit: arg"].
-	constraints := anRBMethodNode statements collect: [ :statement | 
+	constraints := anRBMethodNode statements collect: [ :statement |
 		               self visit: statement ].
 
 	^ TMthd

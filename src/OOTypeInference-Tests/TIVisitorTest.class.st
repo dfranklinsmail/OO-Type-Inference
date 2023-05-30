@@ -88,7 +88,7 @@ TIVisitorTest >> testTypeForTwoReturnTypesMethod [
 		          selector: #simpleMethodWithTwoReturnTypes
 		          arguments: args
 		          result: (TObj from: (TCls class: SmallInteger)).
-	aTCls := TCls class: SampleTypeClass class.
+	aTCls := TCls class: SampleTypeClass.
 	aTCls addInstMethod: aTMthd.
 
 	"type the mehtod and assert its equal to what I am expecting"

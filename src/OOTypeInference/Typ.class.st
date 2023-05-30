@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'type unification' }
+Typ >> acceptVisitor: inferencer [
+^ self
+]
+
+{ #category : #'type unification' }
 Typ >> inspectionAST [
 
 	<inspectorPresentationOrder: 35 title: 'AST'>
