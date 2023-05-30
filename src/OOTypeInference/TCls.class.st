@@ -36,7 +36,7 @@ TCls >> addInstMethod: aTMthd [
 ]
 
 { #category : #'as yet unclassified' }
-TCls >> addTypeMap: aTyp to: aMap [
+TCls >> addTypMap: aTyp to: aMap [
 	aTyp isClass 
 		ifTrue: [ aMap at: aTyp ifPresent: [:aCls | ^ self unifyWith: aCls ] ifAbsentPut: [ aTyp ]].
 	^true

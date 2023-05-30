@@ -25,7 +25,7 @@ FunctionTITest >> testEg1 [
 	t2 := TVar newvar.
 	args2 add: t2.
 	
-	expectedType := TArrow argTypes: args1  arrow: (TArrow type: args2 arrow: t2).
+	expectedType := TArrow argTyps: args1  arrow: (TArrow type: args2 arrow: t2).
 	type := toy typeOf: Dictionary new.
 	self assert: type equals: expectedType.
 
@@ -203,7 +203,7 @@ FunctionTITest >> testGen [
 	tvar6 := TVar newvar.
 	tarrow1 := TArrow type: tvar5 arrow: tvar6.
 	gen3 := tarrow1 gen.
-	self assert: (gen3 argTypes == tarrow1 argTypes).
+	self assert: (gen3 argTyps == tarrow1 argTyps).
 	self assert: (gen3 resultTyp == tarrow1 resultTyp).
 	
 	

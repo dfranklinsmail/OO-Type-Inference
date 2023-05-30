@@ -30,7 +30,7 @@ TMthd class >> selector: selector result: aTyp [
 { #category : #accessing }
 TMthd >> argumentTypes [
 
-	^ argTypes
+	^ argTyps
 ]
 
 { #category : #accessing }
@@ -113,8 +113,8 @@ TMthd >> selector: aSelector arguments: args result: aTyp [
 TMthd >> unifyWith: aTMthd [
 	aTMthd isTMthd ifFalse: [ ^ Error new. ].
 	selector = aTMthd selector ifFalse: [ ^Error new. ].
-	argTypes size = aTMthd argTypes size ifFalse: [ ^ Error new. ].
-	argTypes with: aTMthd argTypes do: [ :argA :argB | argA unifyWith: argB ].
+	argTyps size = aTMthd argTyps size ifFalse: [ ^ Error new. ].
+	argTyps with: aTMthd argTyps do: [ :argA :argB | argA unifyWith: argB ].
 	resultTyp unifyWith: aTMthd resultTyp. 
 	^self.
 ]

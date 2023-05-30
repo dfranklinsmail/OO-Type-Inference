@@ -41,3 +41,19 @@ SampleTypeClass >> simpleMethodWithNew [
 
 	^ SampleTypeClass2 new
 ]
+
+{ #category : #'test mock' }
+SampleTypeClass >> simpleMethodWithTwoReturnTypes [
+
+	^true
+		ifTrue: [ 2 ]
+		ifFalse: [ #ImAString ]
+]
+
+{ #category : #'test mock' }
+SampleTypeClass >> simpleMethodWithTwoReturnTypesSimplifed [
+
+	true
+		  ifTrue: [ 2 ]
+		  ifFalse: [ #ImAString ]
+]

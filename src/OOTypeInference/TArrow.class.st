@@ -2,15 +2,15 @@ Class {
 	#name : #TArrow,
 	#superclass : #Typ,
 	#instVars : [
-		'argTypes',
-		'resultTyp'
+		'resultTyp',
+		'argTyps'
 	],
 	#category : #'OOTypeInference-Types'
 }
 
 { #category : #'instance creation' }
-TArrow class >> argTypes: argTypes arrow: aTyp2 [ 
-	^ self new argTypes: argTypes arrow: aTyp2 
+TArrow class >> argTyps: argTypes arrow: aTyp2 [ 
+	^ self new argTyps: argTypes arrow: aTyp2 
 ]
 
 { #category : #'instance creation' }
@@ -25,29 +25,29 @@ TArrow class >> type: argTypes arrow: aTyp2 [
 ]
 
 { #category : #comparing }
-TArrow >> addTypeMap: aToyTyp to: aMap [
-	self class = aToyTyp class ifFalse: [ ^ aToyTyp addTypeMap: self to: aMap ].
-	argTypes with: (aToyTyp argTypes) do: [:argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aMap.].
-	resultTyp addTypeMap: aToyTyp resultTyp to: aMap.
+TArrow >> addTypMap: aToyTyp to: aMap [
+	self class = aToyTyp class ifFalse: [ ^ aToyTyp addTypMap: self to: aMap ].
+	argTyps with: (aToyTyp argTyps) do: [:argTyp1 :argTyp2 | argTyp1 addTypMap: argTyp2 to: aMap.].
+	resultTyp addTypMap: aToyTyp resultTyp to: aMap.
 		
 ]
 
 { #category : #accessing }
-TArrow >> argTypes [
-	^ argTypes
+TArrow >> argTyps [
+	^ argTyps
 ]
 
 { #category : #accessing }
-TArrow >> argTypes: someArgTypes arrow: aTyp2 [
-	argTypes := someArgTypes.
-	resultTyp := aTyp2.
+TArrow >> argTyps: someArgTyps arrow: aTyp2 [
 
+	argTyps := someArgTyps.
+	resultTyp := aTyp2
 ]
 
 { #category : #printing }
 TArrow >> gen [
 	"what does gen do?"
-	TArrow type: (argTypes collect: [:typ | typ gen]) arrow: (resultTyp gen).
+	TArrow type: (argTyps collect: [:typ | typ gen]) arrow: (resultTyp gen).
 	
 ]
 
@@ -61,9 +61,9 @@ TArrow >> isSameType: aToyTyp [
 	aToyTyp isTArrow ifFalse: [ ^ aToyTyp isSameType: self ].
 
 	"verifty the args to the methods have the same types"
-	aArgsList := aToyTyp argTypes.
-	(aArgsList isCollection and: argTypes size = aArgsList size) ifTrue: [ 
-		argTypes with: aArgsList do: [ :argA :argB | 
+	aArgsList := aToyTyp argTyps.
+	(aArgsList isCollection and: argTyps size = aArgsList size) ifTrue: [ 
+		argTyps with: aArgsList do: [ :argA :argB | 
 			(argA isSameType: argB) ifFalse: [ 
 				TypeMismatch signal: 'the types are not the same' ] ].
 
@@ -83,14 +83,14 @@ TArrow >> isSameType: aToyTyp env: aEnv [
 	aToyTyp isTArrow ifFalse: [ ^ aToyTyp isSameType: self env: aEnv ].
 
 	"verifty the args to the methods have the same types"
-	aArgsList := aToyTyp argTypes.
-	(aArgsList isCollection and: argTypes size = aArgsList size) ifTrue: [ 
-		argTypes with: aArgsList do: [ :argA :argB |
+	aArgsList := aToyTyp argTyps.
+	(aArgsList isCollection and: argTyps size = aArgsList size) ifTrue: [ 
+		argTyps with: aArgsList do: [ :argA :argB |
 			(argA isSameType: argB env: aEnv) ifFalse: [ TypeMismatch signal: 'the types are not the same'] ].
 		"add the arguments to the enrvironment"
-		argTypes
+		argTyps
 			with: aArgsList
-			do: [ :argTyp1 :argTyp2 | argTyp1 addTypeMap: argTyp2 to: aEnv ].
+			do: [ :argTyp1 :argTyp2 | argTyp1 addTypMap: argTyp2 to: aEnv ].
 		"verify the return type typ2 and aToyTyp typ2 has the same type"
 		^ resultTyp isSameType: aToyTyp resultTyp env: aEnv ].
 
@@ -106,7 +106,7 @@ TArrow >> isTArrow [
 { #category : #printing }
 TArrow >> printNestedOn: aStream [
 	aStream nextPut: $(.
-	argTypes do: [ :typ | typ printOn: aStream].
+	argTyps do: [ :typ | typ printOn: aStream].
 	aStream nextPutAll: ' -> '.
 	resultTyp printOn: aStream.
 	aStream nextPut: $).
@@ -116,7 +116,7 @@ TArrow >> printNestedOn: aStream [
 { #category : #printing }
 TArrow >> printOn: aStream [
 	aStream nextPutAll: ' [ '.
-	argTypes do: [ :typ | typ printOn: aStream. aStream nextPutAll: ' '.].
+	argTyps do: [ :typ | typ printOn: aStream. aStream nextPutAll: ' '.].
 	aStream nextPutAll: ' ] '.
 	aStream nextPutAll: ' -> '.
 	resultTyp printNestedOn: aStream.
@@ -131,20 +131,20 @@ TArrow >> resultTyp [
 
 { #category : #accessing }
 TArrow >> type: someArgTypes arrow: aTyp2 [
-	argTypes := someArgTypes.
+	argTyps := someArgTypes.
 	resultTyp := aTyp2.
 
 ]
 
 { #category : #'type unification' }
 TArrow >> unify: aTyp with: someArgTypes arrow: aTyp2 [
-	someArgTypes unify: argTypes.
+	someArgTypes unify: argTyps.
 	aTyp2 unify: resultTyp.
 
 ]
 
 { #category : #'type unification' }
 TArrow >> unifyWith: aTyp [
-	aTyp unify: self with: argTypes arrow: resultTyp.
+	aTyp unify: self with: argTyps arrow: resultTyp.
 
 ]

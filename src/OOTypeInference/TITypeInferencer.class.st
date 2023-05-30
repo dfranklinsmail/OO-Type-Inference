@@ -110,7 +110,6 @@ TITypeInferencer >> typeMethod: aMethodName with: arguments inClass: aClass [
 		                at: aClass
 		                ifAbsentPut: [ TCls class: aClass ].
 
-
 	"search the give class for the method, if exists type it"
 	^ self
 		  typeMethod: (aClass compiledMethodAt: aMethodName ifAbsent: [
@@ -139,7 +138,11 @@ TITypeInferencer >> visit: anRBNode [
 { #category : #visiting }
 TITypeInferencer >> visitArgumentVariableNode: anRBVariableNode [
 "return the arguments type"
-^ instanceVariables at: (anRBVariableNode name).
+| value |
+   self halt.
+	value := instanceVariables at: (anRBVariableNode name).
+	value := value acceptVisitor: self.
+	^ value
 ]
 
 { #category : #visiting }
@@ -153,6 +156,23 @@ variable := anAssignmentNode variable.
 enviroment at: variable ifPresent: [:variableType | variableType union: typeOfValue] ifAbsentPut: [typeOfValue].
 
 ^ typeOfValue
+]
+
+{ #category : #visiting }
+TITypeInferencer >> visitBlockNode: aBlockNode [
+	"visiting a selector node translate into visiting the method node, it has"
+	| argTyps constraints |
+	
+	"arguments := aBlockNode arguments.
+	temps := aBlockNode body temporaries.
+	statements := aBlockNode body statements."
+self halt.
+	argTyps := aBlockNode arguments collect: [ :arg |
+		        instanceVariables at: arg "look at instanceVariables to get arg type""visit: arg" ].
+	constraints := aBlockNode body statements collect: [ :statement |
+		               self visit: statement ].
+
+	^ TArrow argTyps: argTyps arrow: (constraints at: 1)
 ]
 
 { #category : #visiting }
@@ -190,8 +210,11 @@ TITypeInferencer >> visitMessageNode: anRBMessageNode [
 
 	"visiting a message translates into visiting the selector node"
 
-	| selector receiver tClsOfReceiver methodType savedCurrentClass |
-	selector := anRBMessageNode selectorAndArgumentNames.
+	| selector selectorWithArguments arguments receiver tClsOfReceiver methodType savedCurrentClass |
+	selectorWithArguments := anRBMessageNode selectorAndArgumentNames.
+	selector := anRBMessageNode selector.
+	arguments  := anRBMessageNode arguments.
+	
 	receiver := anRBMessageNode receiver.
 	tClsOfReceiver := self visit: receiver. "I should know what the type of this is or I can compute it"
 	"we need to visit the method"
@@ -202,6 +225,7 @@ TITypeInferencer >> visitMessageNode: anRBMessageNode [
 		                findClass: tClsOfReceiver clsName
 		                withSelector: selector asSymbol.
 	methodType := self typeMethod: selector asSymbol
+							 with: arguments
 							 inClass: currentClass.
 
 	"unwrap the return type of the method before returning, should it be wraped in a TObj to begin with?"

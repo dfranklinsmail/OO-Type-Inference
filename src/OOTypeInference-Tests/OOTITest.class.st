@@ -120,7 +120,7 @@ OOTITest >> testOccurs1 [
 	
 	"TODO what am I trying to do here?"
 	tArrow := TArrow type: tVar1 arrow: tVar2.
-	self assert: (tVar1 occurs: tArrow argTypes).
+	self assert: (tVar1 occurs: tArrow argTyps).
 	self assert: (tVar2 occurs: tArrow resultTyp).
 	tVar3 := TVar newvar: 100.
 	tVar3 occurs: tArrow.

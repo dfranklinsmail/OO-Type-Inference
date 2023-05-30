@@ -23,8 +23,15 @@ TVar class >> tv: aTv [
 ]
 
 { #category : #'as yet unclassified' }
+TVar >> addTypMap: aToyTVar to: aMap [
+	tv isTArrow ifTrue: [ ^tv addTypMap: aToyTVar to: aMap ].
+	aMap at: aToyTVar ifPresent: [: value | ^ self == value ] ifAbsentPut: [ self ].
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 TVar >> addTypeMap: aToyTVar to: aMap [
-	tv isTArrow ifTrue: [ ^tv addTypeMap: aToyTVar to: aMap ].
+	tv isTArrow ifTrue: [ ^tv addTypMap: aToyTVar to: aMap ].
 	aMap at: aToyTVar ifPresent: [: value | ^ self == value ] ifAbsentPut: [ self ].
 	^ true
 ]
